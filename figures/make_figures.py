@@ -163,6 +163,7 @@ def fig_bounds():
     old = {(3, 8): 14, (3, 9): 15, (4, 8): 11}
     fig = plt.figure(figsize=(8.6, 6.4)); ax = fig.add_subplot(111, projection="3d")
     dx, dy = 0.40, 0.40
+    labels = []
     for (d, k), (lo, hi, new) in sorted(data.items(), key=lambda t: (t[0][0], -t[0][1])):
         x, y = k - dx / 2, 1.6 * (5 - d) - dy / 2
         base = old.get((d, k), lo)
@@ -172,12 +173,20 @@ def fig_bounds():
         if hi is not None and hi > lo:
             ax.bar3d(x, y, lo, dx, dy, hi - lo, color=ORANGE, alpha=0.30, shade=False, edgecolor=ORANGE, linewidth=0.6)
         top = hi if hi is not None else lo
-        lab = str(lo) if hi == lo else (f"{lo}-{hi}" if hi else f"$\\geq${lo}")
-        ax.text(k, 1.6 * (5 - d) - 0.25, top + 0.9, lab, ha="center", fontsize=9.5, color=RED if new else "black", zorder=10)
+        lab = str(lo) if hi == lo else (f"{lo}\u2013{hi}" if hi else f"$\\geq${lo}")
+        labels.append((k, 1.6 * (5 - d), top, lab, new))
     ax.set_xticks(range(5, 10)); ax.set_yticks([0, 1.6, 3.2]); ax.set_yticklabels(["5", "4", "3"])
     ax.set_zticks([0, 5, 10, 15]); ax.set_ylim(-0.5, 3.7); ax.set_xlim(4.5, 9.5)
     ax.set_xlabel("$k$"); ax.set_ylabel("$d$"); ax.set_zlabel("$g^{(d)}(k)$")
     ax.view_init(elev=30, azim=-72); ax.set_box_aspect((1.7, 1.25, 0.9))
+    # labels are placed in screen coordinates so that no bar can hide them
+    from mpl_toolkits.mplot3d import proj3d
+    fig.canvas.draw()
+    for k, y, top, lab, new in labels:
+        u, v, _ = proj3d.proj_transform(k, y, top + 0.35, ax.get_proj())
+        ax.annotate(lab, (u, v), xycoords="data", xytext=(0, 4), textcoords="offset points", ha="center", va="bottom",
+                    fontsize=9.5, color=RED if new else "black", zorder=20,
+                    bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none", alpha=0.85))
     from matplotlib.patches import Patch
     ax.legend(handles=[Patch(color="#9db8d3", label="known before"), Patch(color=RED, label="gain from the new sets"),
                        Patch(color=ORANGE, alpha=0.35, label="range left open")],

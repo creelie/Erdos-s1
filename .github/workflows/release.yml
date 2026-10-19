@@ -1,0 +1,59 @@
+name: release
+
+# Run by hand from the Actions tab (or the API) after the PR is merged: it checks both
+# certificates in the Lean kernel, runs the C and C++ checks, checks the release files,
+# tags the chosen commit and publishes a GitHub release with the files in dist/ and the
+# notes in .github/RELEASE_NOTES.md. Zenodo archives the release and mints a DOI when the
+# repository is switched on at https://zenodo.org/account/settings/github/. The Python and
+# Julia checks run in verify.yml on every pull request.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag, e.g. v1.0.0"
+        required: true
+        default: "v1.0.0"
+      target:
+        description: "Branch or commit to tag"
+        required: true
+        default: "main"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target }}
+      - name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Lean kernel check; C and C++ checks
+        run: CHECKS="c cpp" bash scripts/run_all.sh
+      - name: Check the release files
+        run: |
+          for f in dist/ErdosSzekeresHighDim_final2.pdf \
+                   dist/ErdosSzekeresHighDim_final2-tex.zip \
+                   dist/ErdosSzekeresHighDim_final2-arxiv.tar.gz \
+                   preprintErdosSzekeresHighDim/ErdosSzekeresHighDim.pdf \
+                   MasterErdosSzekeresHighDim_masterzipfinal2.zip; do
+            test -s "$f" || { echo "missing $f"; exit 1; }
+          done
+          test "$(ls preprintErdosSzekeresHighDim)" = ErdosSzekeresHighDim.pdf
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          TARGET: ${{ inputs.target }}
+        run: |
+          gh release create "$TAG" dist/* \
+            --target "$TARGET" \
+            --title "$TAG: New lower bounds for Erdős–Szekeres numbers in three and four dimensions" \
+            --notes-file .github/RELEASE_NOTES.md

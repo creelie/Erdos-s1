@@ -8,3 +8,9 @@ highdim/c/init_*.txt
 highdim/c/r4_12_*.txt
 highdim/c/esanneal3
 highdim/c/polish
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc
+paper/*Notes.bib
+paper/main.pdf
