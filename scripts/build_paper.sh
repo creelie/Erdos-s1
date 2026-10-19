@@ -4,6 +4,8 @@
 #   dist/ErdosSzekeresHighDim_final2.pdf               the paper
 #   dist/ErdosSzekeresHighDim_final2-tex.zip           LaTeX source (main.tex, tables, figures as PNG)
 #   dist/ErdosSzekeresHighDim_final2-arxiv.tar.gz      the same source as an arXiv tarball
+#   dist/ErdosSzekeresHighDim_journal.pdf              the journal version (AMS article class, one column)
+#   dist/ErdosSzekeresHighDim_journal-tex.zip          its LaTeX source, written by journal/make_journal.py
 #   preprintErdosSzekeresHighDim/ErdosSzekeresHighDim.pdf   the paper (the only file there)
 #   MasterErdosSzekeresHighDim_masterzipfinal2.zip      every tracked file with dist/ and the
 #                                                       preprint folder
@@ -64,6 +66,16 @@ mv "$STAGE/${NAME}_final2-tex.zip" dist/
 entries="$(zipinfo -1 "dist/${NAME}_final2-tex.zip" | wc -l)"
 [ "$entries" -le 512 ] || { echo "build_paper.sh: the tex zip has $entries entries (at most 512)" >&2; exit 1; }
 tar -czf "dist/${NAME}_final2-arxiv.tar.gz" -C "$SRC" main.tex tables figures
+
+echo "== journal version (AMS article class)"
+python3 journal/make_journal.py
+( cd journal/build && build main main.tex )
+cp journal/build/main.pdf "dist/${NAME}_journal.pdf"
+rm -f journal/build/main.pdf
+rm -rf "$STAGE/${NAME}_journal-tex" && cp -r journal/build "$STAGE/${NAME}_journal-tex"
+( cd "$STAGE" && zip -qrX "${NAME}_journal-tex.zip" "${NAME}_journal-tex" )
+mv "$STAGE/${NAME}_journal-tex.zip" dist/
+rm -rf journal/build
 
 echo "== $MASTER"
 mkdir -p "$STAGE/master/Master$NAME"

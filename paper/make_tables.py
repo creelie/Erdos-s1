@@ -64,14 +64,16 @@ def idx(S):
     return ",".join(str(v + 1) for v in S)
 
 
-def cert_r4(P, rels, gs):
+def cert_r4(P, rels, gs, k=8, thm="thm:A", label="tab:certA", fname="cert_r4.tex", count="twenty-eight", note="", size=""):
     n = len(P)
-    lines = [r"\begin{table*}[tp]",
-             r"\caption{The twenty-eight relations behind Theorem~\ref{thm:A}. In each row the point $x_p$ satisfies "
+    t = n - k
+    lines = [r"\begin{table*}[tp]"] + ([size] if size else []) + [
+             r"\caption{The " + count + r" relations behind Theorem~\ref{" + thm + "}" + note + r". In each row the point $x_p$ satisfies "
              r"$\sum_j m_j x_{s_j}=M x_p$ with $\sigma=\{s_1,\dots,s_5\}$ listed in increasing order, the weights $m_j$ "
              r"are positive integers with sum $M$, and $|\det\sigma|=gM$ for the $5\times5$ determinant of the rows $(1,x_s)$, "
-             r"$s\in\sigma$. The last column lists the five points not used by the relation; every triple of "
-             r"$\{1,\dots,11\}$ lies in one of these sets.}\label{tab:certA}",
+             r"$s\in\sigma$. The last column lists the " + ["", "", "", "", "", "five", "six", "seven"][n - 6] +
+             r" points not used by the relation; every " + {3: "triple", 4: "four-element subset"}[t] + r" of "
+             r"$\{1,\dots," + str(n) + r"\}$ lies in one of these sets.}\label{" + label + "}",
              r"\begin{ruledtabular}", r"\begin{tabular}{rlrrrrrrrl}",
              r"$p$ & $\sigma$ & $m_1$ & $m_2$ & $m_3$ & $m_4$ & $m_5$ & $M$ & $g$ & unused points \\ \hline"]
     for r, g in zip(rels, gs):
@@ -79,29 +81,31 @@ def cert_r4(P, rels, gs):
         lines.append(f"{r['p']+1} & {idx(r['simplex'])} & " + " & ".join(str(m) for m in r["weights"]) +
                      f" & {sum(r['weights'])} & {g} & {idx(rest)} \\\\")
     lines += [r"\end{tabular}", r"\end{ruledtabular}", r"\end{table*}"]
-    open(os.path.join(OUT, "cert_r4.tex"), "w").write("\n".join(lines) + "\n")
+    open(os.path.join(OUT, fname), "w").write("\n".join(lines) + "\n")
 
 
-def cert_r3(P, rels, gs, per=41):
+def cert_r3(P, rels, gs, per=41, thm="thm:B", label="tab:certB", fname="cert_r3.tex", note=""):
     rows = [f"{r['p']+1} & {idx(r['simplex'])} & " + " & ".join(str(m) for m in r["weights"]) +
             f" & {sum(r['weights'])} & {g}" for r, g in zip(rels, gs)]
     head = r"$p$ & $\sigma$ & $m_1$ & $m_2$ & $m_3$ & $m_4$ & $M$ & $g$"
     chunks = [rows[i:i + 2 * per] for i in range(0, len(rows), 2 * per)]
     out = []
     for c, ch in enumerate(chunks):
-        a, b = ch[:per], ch[per:]
+        half = min(per, (len(ch) + 1) // 2)
+        a, b = ch[:half], ch[half:]
         b += [" & " * 7] * (len(a) - len(b))
-        first = r"The " + str(len(rels)) + r" relations behind Theorem~\ref{thm:B}" if c == 0 else r"The relations behind Theorem~\ref{thm:B}, continued"
+        first = (r"The " + str(len(rels)) + r" relations behind Theorem~\ref{" + thm + "}" + note if c == 0
+                 else r"The relations behind Theorem~\ref{" + thm + "}" + note + ", continued")
         cap = (first + r". Each row gives $\sum_j m_j x_{s_j}=M x_p$ with $\sigma=\{s_1,\dots,s_4\}$ in increasing order, "
                r"positive integer weights $m_j$ with sum $M$, and $|\det\sigma|=gM$ for the $4\times4$ determinant of the rows $(1,x_s)$.")
-        lab = r"\label{tab:certB}" if c == 0 else r"\label{tab:certB" + "abcdef"[c] + "}"
+        lab = r"\label{" + label + "}" if c == 0 else r"\label{" + label + "abcdef"[c] + "}"
         out += [r"\begin{table*}[tp]", r"\scriptsize", r"\caption{" + cap + "}" + lab,
                 r"\begin{ruledtabular}", r"\begin{tabular}{rlrrrrrr@{\hspace{2.2em}}rlrrrrrr}",
                 head + " & " + head + r" \\ \hline"]
         for x, y in zip(a, b):
             out.append(x + " & " + y + r" \\")
         out += [r"\end{tabular}", r"\end{ruledtabular}", r"\end{table*}", ""]
-    open(os.path.join(OUT, "cert_r3.tex"), "w").write("\n".join(out))
+    open(os.path.join(OUT, fname), "w").write("\n".join(out))
 
 
 def orient(P, S):
@@ -173,6 +177,41 @@ def main():
     assert st["layers"] == [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15]], st["layers"]
     L4 = hull_layers(P4, 4)
     assert [sorted(v) for v, _ in L4] == [list(range(6)), list(range(6, 11))] and len(L4[0][1]) == 8
+    # the nine-point sets of Theorem C
+    Q4 = json.load(open(os.path.join(HD, "witness_r4_13_k9.json")))
+    S4 = json.load(open(os.path.join(HD, "cert_r4_13_k9.json")))
+    Q3 = json.load(open(os.path.join(HD, "witness_r3_18_k9.json")))
+    S3 = json.load(open(os.path.join(HD, "cert_r3_18_k9.json")))
+    N4, h4 = check(Q4, S4, 4, 9)
+    N3, h3 = check(Q3, S3, 3, 9)
+    coords(Q4, "coords_r4_k9.tex", r"The thirteen points of Theorem~\ref{thm:C} in $\mathbb{R}^4$.", "tab:coordsCfour")
+    coords(Q3, "coords_r3_k9.tex", r"The eighteen points of Theorem~\ref{thm:C} in $\mathbb{R}^3$.", "tab:coordsCthree")
+    cert_r4(Q4, S4, h4, k=9, thm="thm:C", label="tab:certCfour", fname="cert_r4_k9.tex", count="forty-six",
+            note=r" in $\mathbb{R}^4$", size=r"\footnotesize")
+    cert_r3(Q3, S3, h3, per=52, thm="thm:C", label="tab:certCthree", fname="cert_r3_k9.tex", note=r" in $\mathbb{R}^3$")
+    mC = [min(abs(det([[1] + P[v] for v in S])) for S in combinations(range(len(P)), d + 1)) for P, d in ((Q4, 4), (Q3, 3))]
+    nums.update({"relCfour": len(S4), "relCthree": len(S3), "maxMCfour": f"{N4:,}".replace(",", "{,}"),
+                 "maxMCthree": f"{N3:,}".replace(",", "{,}"), "maxcoordCfour": max(map(max, Q4)),
+                 "maxcoordCthree": max(map(max, Q3)), "mindetCfour": mC[0], "mindetCthree": mC[1],
+                 "relCthreeinner": sum(1 for r in S3 if r["p"] >= 14)})
+    # structure stated in Propositions 6.1 and 6.2
+    L = hull_layers(Q4, 4)
+    assert [sorted(v) for v, _ in L] == [list(range(7)), list(range(7, 13))]
+    F = {tuple(f) for f in L[0][1]}
+    caps = {(1, 2, 3, 4), (1, 2, 3, 5), (1, 2, 4, 5), (1, 3, 4, 6), (1, 3, 5, 6), (1, 4, 5, 6), (2, 3, 4, 6),
+            (2, 3, 5, 7), (2, 3, 6, 7), (2, 4, 5, 7), (2, 4, 6, 7), (3, 5, 6, 7), (4, 5, 6, 7)}
+    assert F == {tuple(i - 1 for i in f) for f in caps}
+    E = {frozenset(e) for f in L[1][1] for e in combinations(f, 2)}
+    assert len(L[1][1]) == 9 and len(E) == 15
+    assert all(r["p"] >= 7 for r in S4)
+    L = hull_layers(Q3, 3)
+    assert [sorted(v) for v, _ in L] == [list(range(7)), list(range(7, 14)), list(range(14, 18))]
+    F1 = {tuple(i + 1 for i in f) for f in L[0][1]}
+    assert F1 == {(1, 2, 3), (1, 2, 7), (1, 3, 7), (2, 3, 4), (2, 4, 5), (2, 5, 7), (3, 4, 6), (3, 6, 7), (4, 5, 6), (5, 6, 7)}
+    F2 = {tuple(i + 1 for i in f) for f in L[1][1]}
+    ring = [8, 10, 14, 13, 12]
+    assert F2 == {tuple(sorted((a, ring[j], ring[(j + 1) % 5]))) for a in (9, 11) for j in range(5)}
+    assert all(r["p"] >= 7 for r in S3)
     with open(os.path.join(OUT, "numbers.tex"), "w") as f:
         for k, v in nums.items():
             f.write(f"\\newcommand{{\\{k}}}{{{v}}}\n")

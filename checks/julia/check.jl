@@ -2,10 +2,10 @@
 #
 #   julia checks/julia/check.jl
 #
-# For both sets of the paper it checks general position, every relation of the
+# For the four sets of the paper it checks general position, every relation of the
 # certificate (positive weights, the identity, the determinant and the Cramer numerators),
 # the covering condition, and, by a direct exact test that ignores the certificate, that
-# no 8 points are in convex position.  Only the Julia standard library is used; the JSON
+# no k points are in convex position.  Only the Julia standard library is used; the JSON
 # files are read as flat lists of integers.
 
 const ROOT = normpath(joinpath(@__DIR__, "..", ".."))
@@ -109,5 +109,7 @@ function check(name, wfile, cfile, d, k, nrel)
 end
 
 total = check("X4", "witness_r4_11.json", "cert_r4_11.json", 4, 8, 28) +
-        check("X3", "witness_r3_15.json", "cert_r3_15.json", 3, 8, 161)
+        check("X3", "witness_r3_15.json", "cert_r3_15.json", 3, 8, 161) +
+        check("Y4", "witness_r4_13_k9.json", "cert_r4_13_k9.json", 4, 9, 46) +
+        check("Y3", "witness_r3_18_k9.json", "cert_r3_18_k9.json", 3, 9, 282)
 println("$total checks passed, 0 failed")

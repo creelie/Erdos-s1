@@ -30,7 +30,7 @@
 \newcommand{\conv}{\operatorname{conv}}
 \newcommand{\inter}{\operatorname{int}}
 \newcommand{\codeDOI}{\href{https://github.com/creelie/Erdos-s1}{\nolinkurl{github.com/creelie/Erdos-s1}}}
-\def\zenodoID{}% the version DOI of the release, once Zenodo has minted it
+\def\zenodoID{10.5281/zenodo.23483598}% the concept DOI of the archive, which resolves to its latest release
 \newcommand{\zenodoDOI}{\ifx\zenodoID\empty\else, \href{https://doi.org/\zenodoID}{doi:\zenodoID}\fi}
 \input{tables/numbers}
 \tolerance=2000
@@ -57,7 +57,7 @@
 
 \begin{abstract}
 \itshape
-We construct eleven points in general position in four-dimensional space with no eight of them in convex position, and fifteen points in general position in three-dimensional space with no eight of them in convex position. The first set raises the lower bound for the least number of points in four-space that forces eight in convex position from eleven to twelve, so that this number is now known to be twelve or thirteen. The second raises the corresponding lower bound in three-space from fourteen to sixteen. Both sets have small integer coordinates, and each proof is a finite list of identities that place one point of the set strictly inside a simplex spanned by others.
+We construct eleven points in general position in four-dimensional space with no eight of them in convex position, and fifteen points in general position in three-dimensional space with no eight of them in convex position. The first set raises the lower bound for the least number of points in four-space that forces eight in convex position from eleven to twelve, so that this number is now known to be twelve or thirteen. The second raises the corresponding lower bound in three-space from fourteen to sixteen. For nine points we construct thirteen points in four-space and eighteen points in three-space with no nine in convex position, which raise the lower bounds from thirteen to fourteen and from fifteen to nineteen. All four sets have small integer coordinates, and each proof is a finite list of identities that place one point of the set strictly inside a simplex spanned by others.
 \par\medskip\upshape\noindent\textit{2020 Mathematics Subject Classification.} 52C10; 52A37; 05D10.
 \end{abstract}
 
@@ -87,12 +87,12 @@ g^{(3)}(7)=13,\qquad g^{(4)}(8)\le13,\qquad g^{(5)}(9)\le13,
 together with the same upper bounds for holes. His twelve points in $\R^3$ without a $7$-gon are integer points. His twelve-element witnesses in rank five and six are chirotopes that he proved to be non-realizable by points, and he conjectured that realizable witnesses exist. So the lower bounds $g^{(4)}(8)\ge11$ and $g^{(5)}(9)\ge12$ given by \eqref{eq:linear} remained in place, and in $\R^3$ the only lower bound for $g^{(3)}(8)$ was $g^{(3)}(7)+1=14$.\footnote{If $X$ has no $k$-gon and $y$ is any point with $X\cup\{y\}$ in general position, then $X\cup\{y\}$ has no $(k+1)$-gon, because removing $y$ from a $(k+1)$-gon leaves a $k$-gon of $X$. Hence $g^{(d)}(k+1)\ge g^{(d)}(k)+1$. The same argument applies to holes, since the convex hull of a subset of a hole contains no point of the set outside the hole.}
 
 \begin{table}[tb]
-\caption{Values and bounds of $g^{(d)}(k)$ for $3\le d\le5$ and $5\le k\le9$. Entries in bold are proved in this paper; the earlier lower bounds were $11$, $14$ and $15$. The upper bounds $13$ are Scheucher's \cite{Sch23}.}\label{tab:known}
+\caption{Values and bounds of $g^{(d)}(k)$ for $3\le d\le5$ and $5\le k\le9$. Entries in bold are proved in this paper; the earlier lower bounds were $14$ and $15$ for $d=3$, and $11$ and $13$ for $d=4$. The upper bounds $13$ are Scheucher's \cite{Sch23}.}\label{tab:known}
 \begin{ruledtabular}
 \begin{tabular}{cccccc}
  & $k=5$ & $k=6$ & $k=7$ & $k=8$ & $k=9$\\ \hline
-$d=3$ & $6$ & $9$ & $13$ & $\ge\mathbf{16}$ & $\ge\mathbf{17}$\\
-$d=4$ & $5$ & $7$ & $9$ & $\mathbf{12}$--$13$ & $\ge13$\\
+$d=3$ & $6$ & $9$ & $13$ & $\ge\mathbf{16}$ & $\ge\mathbf{19}$\\
+$d=4$ & $5$ & $7$ & $9$ & $\mathbf{12}$--$13$ & $\ge\mathbf{14}$\\
 $d=5$ & $5$ & $6$ & $8$ & $10$ & $12$--$13$\\
 \end{tabular}
 \end{ruledtabular}
@@ -101,30 +101,34 @@ $d=5$ & $5$ & $6$ & $8$ & $10$ & $12$--$13$\\
 \begin{figure}[tb]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_bounds.png}
-\caption{The values of $g^{(d)}(k)$ for $d=3,4,5$ and $k=5,\dots,9$. Blue bars are the values or lower bounds known before; red bars show the gain from Theorems~\ref{thm:A} and~\ref{thm:B}; the light orange blocks mark the ranges left open below Scheucher's upper bounds. Where no upper bound is drawn, only the lower bound is shown.}\label{fig:bounds}
+\caption{The values of $g^{(d)}(k)$ for $d=3,4,5$ and $k=5,\dots,9$. Blue bars are the values or lower bounds known before; red bars show the gain from Theorems~\ref{thm:A}, \ref{thm:B} and~\ref{thm:C}; the light orange blocks mark the ranges left open below Scheucher's upper bounds. Where no upper bound is drawn, only the lower bound is shown.}\label{fig:bounds}
 \end{figure}
 
-We prove the following.
+We prove the following three theorems.
 
 \begin{mainthm}\label{thm:A}
 There is a set of eleven points in general position in $\R^4$ with no eight points in convex position. Consequently $g^{(4)}(8)\ge12$ and $h^{(4)}(8)\ge12$, and by \eqref{eq:scheucher} both numbers lie in $\{12,13\}$.
 \end{mainthm}
 
 \begin{mainthm}\label{thm:B}
-There is a set of fifteen points in general position in $\R^3$ with no eight points in convex position. Consequently $g^{(3)}(8)\ge16$, $h^{(3)}(8)\ge16$ and $g^{(3)}(9)\ge17$.
+There is a set of fifteen points in general position in $\R^3$ with no eight points in convex position. Consequently $g^{(3)}(8)\ge16$ and $h^{(3)}(8)\ge16$.
 \end{mainthm}
 
-Theorem~\ref{thm:A} is the first lower bound beyond \eqref{eq:linear} in four dimensions, and it leaves two candidates for $g^{(4)}(8)$; the conjecture of Morris and Soltan and Scheucher's conjecture both predict $13$. Theorem~\ref{thm:B} raises the lower bound for $g^{(3)}(8)$ by two; the conjecture of Morris and Soltan predicts $g^{(3)}(8)=4g^{(3)}(5)-3=21$, and the best upper bound we know comes from dimension reduction and the planar estimate of T\'oth and Valtr, as in \cite{Sch23}.
+\begin{mainthm}\label{thm:C}
+There is a set of thirteen points in general position in $\R^4$ with no nine points in convex position, and a set of eighteen points in general position in $\R^3$ with no nine points in convex position. Consequently $g^{(4)}(9)\ge14$, $h^{(4)}(9)\ge14$, $g^{(3)}(9)\ge19$, $h^{(3)}(9)\ge19$ and $g^{(3)}(10)\ge20$.
+\end{mainthm}
 
-Both proofs are certificates. If $v_0,\dots,v_d$ are affinely independent points of $\R^d$ and
+Theorem~\ref{thm:A} is the first lower bound beyond \eqref{eq:linear} in four dimensions, and it leaves two candidates for $g^{(4)}(8)$; the conjecture of Morris and Soltan and Scheucher's conjecture both predict $13$. Theorem~\ref{thm:B} raises the lower bound for $g^{(3)}(8)$ by two; the conjecture of Morris and Soltan predicts $g^{(3)}(8)=4g^{(3)}(5)-3=21$, and the best upper bound we know comes from dimension reduction and the planar estimate of T\'oth and Valtr, as in \cite{Sch23}. Theorem~\ref{thm:C} raises the lower bound for $g^{(4)}(9)$ from the value $2k-d-1=13$ of the construction of Bisztriczky and Harborth to $14$, and the lower bound for $g^{(3)}(9)$ from $g^{(3)}(7)+2=15$ to $19$; the conjecture of Morris and Soltan predicts $g^{(4)}(9)=4g^{(4)}(5)-3=17$ and $g^{(3)}(9)=4g^{(3)}(6)-3=33$.\footnote{For $g^{(3)}(10)$ the construction of Bisztriczky and Harborth gives $16$, and Theorem~\ref{thm:C} with the monotonicity of the previous footnote gives $20$. In $\R^4$ the bound $g^{(4)}(10)\ge g^{(4)}(9)+1=15$ coincides with $2k-d-1=15$, so Theorem~\ref{thm:C} gives nothing new there.}
+
+All the proofs are certificates. If $v_0,\dots,v_d$ are affinely independent points of $\R^d$ and
 \begin{equation}\label{eq:relation}
 \sum_{j=0}^{d} m_j v_j=M p,\qquad m_j\in\{1,2,3,\dots\},\quad M=\sum_{j=0}^d m_j,
 \end{equation}
-then $p$ lies in the interior of the simplex spanned by the $v_j$, and no set containing $p$ and the $v_j$ is in convex position. We call \eqref{eq:relation} a \emph{relation}. A set has no $k$-gon as soon as every $k$ of its points contain the $d+2$ points of some relation (Proposition~\ref{prop:cover}). Twenty-eight relations prove Theorem~\ref{thm:A} and $\relB$ prove Theorem~\ref{thm:B}; they are listed in Appendix~\ref{app:certA}. Each relation is an identity between integer vectors that can be checked by hand. That the relations meet every $8$-subset is a finite combinatorial condition: for Theorem~\ref{thm:A} it is a statement about $165$ triples, which Table~\ref{tab:certA} lets the reader check directly, and for Theorem~\ref{thm:B} it concerns $6435$ subsets and is checked by the programs of the archive. Since relations survive small perturbations (Lemma~\ref{lem:stable}), general position costs nothing; the integer sets we give are in general position as they stand.
+then $p$ lies in the interior of the simplex spanned by the $v_j$, and no set containing $p$ and the $v_j$ is in convex position. We call \eqref{eq:relation} a \emph{relation}. A set has no $k$-gon as soon as every $k$ of its points contain the $d+2$ points of some relation (Proposition~\ref{prop:cover}). Twenty-eight relations prove Theorem~\ref{thm:A}, $\relB$ prove Theorem~\ref{thm:B}, and $\relCfour$ and $\relCthree$ prove the two parts of Theorem~\ref{thm:C}; they are listed in Appendix~\ref{app:certA}. Each relation is an identity between integer vectors that can be checked by hand. That the relations meet every $8$-subset is a finite combinatorial condition: for Theorem~\ref{thm:A} it is a statement about $165$ triples, which Table~\ref{tab:certA} lets the reader check directly, and for Theorem~\ref{thm:B} it concerns $6435$ subsets and is checked by the programs of the archive. For the thirteen points of Theorem~\ref{thm:C} it concerns the $715$ four-element complements of $9$-subsets, again listed through Table~\ref{tab:certCfour}, and for the eighteen points the $48620$ subsets of size nine. Since relations survive small perturbations (Lemma~\ref{lem:stable}), general position costs nothing; the integer sets we give are in general position as they stand.
 
-The two sets have a layered structure (Figures~\ref{fig:fourd} and~\ref{fig:layers}). The eleven points in $\R^4$ consist of the six vertices of a bipyramid over a tetrahedron and five points inside it, and every relation places one of the five inner points in a simplex. The fifteen points in $\R^3$ form three convex layers, a triangular bipyramid, an octahedron and a tetrahedron, and no relation places a vertex of the outer bipyramid inside a simplex. Scheucher's twelve points in $\R^3$ without a $7$-gon have convex layers of sizes $5$, $6$ and $1$, again a triangular bipyramid and an octahedron. For other extremal problems on explicit configurations in dimensions four and seven see \cite{BBB26a,BBB26b}, and for reflexive polytopes in dimension four see \cite{Bha26}.
+The two sets have a layered structure (Figures~\ref{fig:fourd} and~\ref{fig:layers}). The eleven points in $\R^4$ consist of the six vertices of a bipyramid over a tetrahedron and five points inside it, and every relation places one of the five inner points in a simplex. The fifteen points in $\R^3$ form three convex layers, a triangular bipyramid, an octahedron and a tetrahedron, and no relation places a vertex of the outer bipyramid inside a simplex. Scheucher's twelve points in $\R^3$ without a $7$-gon have convex layers of sizes $5$, $6$ and $1$, again a triangular bipyramid and an octahedron. The sets of Theorem~\ref{thm:C} are built the same way (Figures~\ref{fig:ninefour} and~\ref{fig:ninethree}). The thirteen points in $\R^4$ are the seven vertices of a $4$-simplex with two caps and six points inside it forming a cyclic polytope. The eighteen points in $\R^3$ form a capped octahedron, a pentagonal bipyramid and a tetrahedron, and again only points of the two inner layers lie inside simplices. For other extremal problems on explicit configurations in dimensions four and seven see \cite{BBB26a,BBB26b}, and for reflexive polytopes in dimension four see \cite{Bha26}.
 
-Section~\ref{sec:cert} proves the certificate criterion, Sections~\ref{sec:A} and~\ref{sec:B} prove Theorems~\ref{thm:A} and~\ref{thm:B}, Section~\ref{sec:search} explains how the sets were found, and Section~\ref{sec:open} discusses what remains open. Appendix~\ref{app:proofs} contains the detailed proofs of the lemmas of Section~\ref{sec:cert}, and Appendix~\ref{app:certA} the two certificates.
+Section~\ref{sec:cert} proves the certificate criterion, Sections~\ref{sec:A}, \ref{sec:B} and~\ref{sec:C} prove Theorems~\ref{thm:A}, \ref{thm:B} and~\ref{thm:C}, Section~\ref{sec:search} explains how the sets were found, and Section~\ref{sec:open} discusses what remains open. Appendix~\ref{app:proofs} contains the detailed proofs of the lemmas of Section~\ref{sec:cert}, and Appendix~\ref{app:certA} the four certificates.
 
 %----------------------------------------------------------------------
 \section{Relations and certificates}\label{sec:cert}
@@ -178,7 +182,7 @@ Let $Y\subseteq X$ have $k$ points and let $(p,\sigma,m)$ be a relation with sup
 The condition of Proposition~\ref{prop:cover} can be stated through complements. A $k$-subset $Y$ contains the support $S$ of a relation if and only if $X\setminus Y\subseteq X\setminus S$. So if $|X|=n$, the sets $X\setminus S$ of size $n-d-2$ must cover every $(n-k)$-subset of $X$. This is a covering design, and Sch\"onheim's bound \cite{Sch64} gives a lower bound for the number of relations any such certificate needs.
 
 \begin{remark}\label{rem:schoenheim}
-A certificate in the sense of Proposition~\ref{prop:cover} for eleven points in $\R^4$ and $k=8$ covers the $3$-subsets of an $11$-set by $5$-sets, and needs at least $\lceil\frac{11}{5}\lceil\frac{10}{4}\lceil\frac{9}{3}\rceil\rceil\rceil=18$ relations. For fifteen points in $\R^3$ and $k=8$ it covers the $7$-subsets of a $15$-set by $10$-sets, and needs at least $74$ relations. Our certificates use $\relA$ and $\relB$ relations.
+A certificate in the sense of Proposition~\ref{prop:cover} for eleven points in $\R^4$ and $k=8$ covers the $3$-subsets of an $11$-set by $5$-sets, and needs at least $\lceil\frac{11}{5}\lceil\frac{10}{4}\lceil\frac{9}{3}\rceil\rceil\rceil=18$ relations. For fifteen points in $\R^3$ and $k=8$ it covers the $7$-subsets of a $15$-set by $10$-sets, and needs at least $74$ relations. For $k=9$ the thirteen points in $\R^4$ need at least $26$ relations and the eighteen points in $\R^3$ at least $85$. Our certificates use $\relA$, $\relB$, $\relCfour$ and $\relCthree$ relations.
 \end{remark}
 
 By Lemma~\ref{lem:caratheodory} the method is complete: if a set in general position has no $k$-gon, then every $k$-subset contains a point in the interior of a simplex of other points of the subset, and when the coordinates are rational the barycentric coordinates are rational, so the relation can be written with integer weights. A certificate exists exactly when the set has no $k$-gon.
@@ -198,11 +202,17 @@ The convex hull of $X_4$ is a bipyramid over a tetrahedron: its vertices are $x_
 For each of the eight listed quadruples $\tau$ the determinants $\det(\tau,x)$ have one sign for all seven remaining points $x$ of $X_4$, which is a sign check of $56$ determinants. So the hyperplane through $\tau$ supports $\conv X_4$, and since $\tau$ consists of four affinely independent points it spans a facet. Each triangle contained in one of these eight tetrahedra lies in exactly two of them. In a convex polytope every ridge lies in exactly two facets and the facets are connected through ridges \cite{Zie95}, so these eight tetrahedra are all the facets of $\conv X_4$, and they are the facets of the bipyramid $\conv\{x_1,\dots,x_6\}$. The points $x_7,\dots,x_{11}$ lie strictly on the inner side of all eight facet hyperplanes, by the same sign check, so they are interior.
 \end{proof}
 
-\begin{figure}[tb]
+\begin{figure*}[tp]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig_fourd.png}
+\begin{minipage}[t]{0.485\textwidth}\centering
+\includegraphics[width=\linewidth]{figures/fig_fourd.png}
 \caption{A schematic view of the set of Theorem~\ref{thm:A}, projected to three dimensions after an affine map that makes the hull a regular bipyramid. The tetrahedron $x_2x_3x_4x_5$ and the apexes $x_1$, $x_6$ span the hull; the five inner points (red) form a $4$-simplex, drawn enlarged. Every one of the $\relA$ relations of Table~\ref{tab:certA} places a red point inside a simplex of other points.}\label{fig:fourd}
-\end{figure}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}\centering
+\includegraphics[width=\linewidth]{figures/fig_layers.png}
+\caption{The three convex layers of the set of Theorem~\ref{thm:B}: a triangular bipyramid (blue), an octahedron (green) and a tetrahedron (red), with the labels of Table~\ref{tab:coordsB}. The drawing is schematic: it shows regular solids with the true combinatorics and labels, since in the actual coordinates the inner layers are small and flat.}\label{fig:layers}
+\end{minipage}
+\end{figure*}
 
 \begin{proof}[Proof of Theorem~\ref{thm:A}]
 Each row of Table~\ref{tab:certA} is a relation of $X_4$: the identity $\sum_jm_jx_{s_j}=Mx_p$ holds in each of the four coordinates, the weights are positive, and the determinant of the simplex is $\pm gM\ne0$. The last column of the table lists, for each relation, the five points outside its support. Every one of the $\binom{11}{3}=165$ triples of indices lies in one of these $\relA$ five-element sets. So the complement of every $8$-subset of $X_4$ lies outside the support of some relation, that is, every $8$-subset contains a support, and Proposition~\ref{prop:cover} shows that $X_4$ has no $8$ points in convex position. The set $X_4$ is itself in general position: the $\binom{11}{5}=462$ determinants of five of its points are all nonzero, the smallest in absolute value being $\mindetA$. Independently of this check, Proposition~\ref{prop:cover} provides a perturbation of $X_4$ in general position with the same property. Hence $g^{(4)}(8)\ge12$. An $8$-hole is an $8$-gon, so $h^{(4)}(8)\ge g^{(4)}(8)\ge12$, and Scheucher's bound $h^{(4)}(8)\le13$ \cite{Sch23} together with $g^{(4)}(8)\le h^{(4)}(8)$ gives the last statement.
@@ -225,12 +235,6 @@ The set $X_3$ has three convex layers. The vertices of $\conv X_3$ are $x_1,\dot
 As for Proposition~\ref{prop:structureA}. The six triangles of the bipyramid have constant sign of $\det(\tau,x)$ over the other twelve points of $X_3$, so they are facets of $\conv X_3$; every edge among them lies in exactly two, so they are all the facets, and the remaining ten points lie strictly inside. The eight triangles of the octahedron have constant sign over the other seven points of $\{x_6,\dots,x_{15}\}$ and close up in the same way, so they are the facets of the second layer, with $x_{12},\dots,x_{15}$ strictly inside. Four points in general position span a tetrahedron.
 \end{proof}
 
-\begin{figure}[tb]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig_layers.png}
-\caption{The three convex layers of the set of Theorem~\ref{thm:B}: a triangular bipyramid (blue), an octahedron (green) and a tetrahedron (red), with the labels of Table~\ref{tab:coordsB}. The drawing is schematic: it shows regular solids with the true combinatorics and labels, since in the actual coordinates the inner layers are small and flat.}\label{fig:layers}
-\end{figure}
-
 \begin{proof}[Proof of Theorem~\ref{thm:B}]
 Each row of Tables~\ref{tab:certB} and~\ref{tab:certBb} is a relation of $X_3$, by the same three checks as before. Every one of the $\binom{15}{8}=6435$ eight-point subsets of $X_3$ contains the support of one of these $\relB$ relations; equivalently, every $7$-subset of the indices lies in the complement of a support. This finite statement is verified in the archive \cite{BB26z} by independent programs in four languages and by the Lean~4 kernel; three of the programs also test every $8$-subset directly for convex position in exact integer arithmetic, without using the certificate. Proposition~\ref{prop:cover} then shows that $X_3$ has no $8$ points in convex position. The set $X_3$ is in general position, the smallest absolute value of its $\binom{15}{4}=1365$ determinants being $\mindetB$, and again Proposition~\ref{prop:cover} would supply a perturbation if this check were omitted. So $g^{(3)}(8)\ge16$ and $h^{(3)}(8)\ge16$, and the monotonicity $g^{(3)}(9)\ge g^{(3)}(8)+1$ gives $g^{(3)}(9)\ge17$.
 \end{proof}
@@ -238,11 +242,60 @@ Each row of Tables~\ref{tab:certB} and~\ref{tab:certBb} is a relation of $X_3$, 
 The points $p$ of the relations run through all ten points of the two inner layers, and no relation places a vertex of the outer bipyramid inside a simplex. In $\relBinner$ of the $\relB$ relations the point $p$ is a vertex of the inner tetrahedron. The others are needed because an $8$-subset may avoid the inner tetrahedron altogether: it then consists of eight of the eleven points of the two outer layers, and one of its octahedron vertices must lie inside a simplex of the others.
 
 %----------------------------------------------------------------------
+\section{Nine points}\label{sec:C}
+
+Let $Y_4=\{x_1,\dots,x_{13}\}\subset\R^4$ be the points of Table~\ref{tab:coordsCfour} and $Y_3=\{x_1,\dots,x_{18}\}\subset\R^3$ those of Table~\ref{tab:coordsCthree}; within this section the labels $x_i$ refer to these two tables. All coordinates lie between $0$ and $\maxcoordCfour$ in $\R^4$ and between $0$ and $\maxcoordCthree$ in $\R^3$.
+
+\input{tables/coords_r4_k9}
+\input{tables/coords_r3_k9}
+
+\begin{proposition}\label{prop:structureCfour}
+The vertices of $\conv Y_4$ are $x_1,\dots,x_7$, and its thirteen facets are $x_2x_3x_4x_6$, the six tetrahedra $x_1\tau$ with $\tau$ one of the triangles $x_2x_3x_4$, $x_2x_3x_5$, $x_2x_4x_5$, $x_3x_4x_6$, $x_3x_5x_6$, $x_4x_5x_6$, and the six tetrahedra $x_7\tau$ with $\tau$ one of $x_2x_3x_5$, $x_2x_3x_6$, $x_2x_4x_5$, $x_2x_4x_6$, $x_3x_5x_6$, $x_4x_5x_6$. So $\conv Y_4$ arises from the $4$-simplex $\conv\{x_2,\dots,x_6\}$ by placing $x_1$ beyond its facets $x_2x_3x_4x_5$ and $x_3x_4x_5x_6$ and then $x_7$ beyond its facets $x_2x_3x_5x_6$ and $x_2x_4x_5x_6$, and every two vertices except $x_1,x_7$ span an edge. The points $x_8,\dots,x_{13}$ lie in the interior and are the vertices of a polytope combinatorially equivalent to the cyclic polytope $C_4(6)$.
+\end{proposition}
+
+\begin{proof}
+The sign check of Proposition~\ref{prop:structureA} applies to the thirteen listed tetrahedra: for each of them the determinants $\det(\tau,x)$ have one sign over the other nine points of $Y_4$, and the remaining six points lie strictly on the inner side of all thirteen hyperplanes. Every triangle of one of the thirteen tetrahedra lies in exactly two of them, so they are all the facets. Placing a point beyond a set of facets of a polytope, and beneath the others, replaces the visible facets by the cones from the point over the boundary of their union \cite[Theorem~5.2.1]{Gru03}; the two visible facets of $\conv\{x_2,\dots,x_6\}$ for $x_1$ share the triangle $x_3x_4x_5$, the two for $x_7$ share $x_2x_5x_6$, and the facets listed are exactly those this rule produces. The convex hull of $x_8,\dots,x_{13}$ has nine facets,
+\[
+\begin{gathered}
+x_8x_9x_{10}x_{11},\ x_8x_9x_{10}x_{13},\ x_8x_9x_{11}x_{12},\ x_8x_9x_{12}x_{13},\ x_8x_{10}x_{11}x_{12},\\
+x_8x_{10}x_{12}x_{13},\ x_9x_{10}x_{11}x_{13},\ x_9x_{11}x_{12}x_{13},\ x_{10}x_{11}x_{12}x_{13},
+\end{gathered}
+\]
+by the same check, and every two of its six vertices span an edge. A neighbourly simplicial $4$-polytope with six vertices is combinatorially the cyclic polytope \cite{Gru03}.
+\end{proof}
+
+\begin{proposition}\label{prop:structureCthree}
+The set $Y_3$ has three convex layers. The first, with vertices $x_1,\dots,x_7$, is the octahedron with vertices $x_2,\dots,x_7$ and opposite pairs $\{x_2,x_6\}$, $\{x_3,x_5\}$, $\{x_4,x_7\}$, capped by $x_1$ over its face $x_2x_3x_7$. The second, with vertices $x_8,\dots,x_{14}$, is a pentagonal bipyramid with apexes $x_9$ and $x_{11}$ over the pentagon $x_8x_{10}x_{14}x_{13}x_{12}$. The points $x_{15},\dots,x_{18}$ span a tetrahedron inside it.
+\end{proposition}
+
+\begin{proof}
+The ten triangles $x_1x_2x_3$, $x_1x_2x_7$, $x_1x_3x_7$, $x_2x_3x_4$, $x_2x_4x_5$, $x_2x_5x_7$, $x_3x_4x_6$, $x_3x_6x_7$, $x_4x_5x_6$, $x_5x_6x_7$ have constant sign of $\det(\tau,x)$ over the other fifteen points, every edge among them lies in exactly two, and the eleven points $x_8,\dots,x_{18}$ lie strictly inside; removing $x_1$ leaves the eight faces of the octahedron, including $x_2x_3x_7$. The ten triangles $x_9x_ix_j$ and $x_{11}x_ix_j$ with $x_ix_j$ an edge of the pentagon pass the same test over the other points of $\{x_8,\dots,x_{18}\}$, with $x_{15},\dots,x_{18}$ strictly inside.
+\end{proof}
+
+\begin{figure*}[tp]
+\centering
+\begin{minipage}[t]{0.485\textwidth}\centering
+\includegraphics[width=\linewidth]{figures/fig_ninefour.png}
+\caption{The thirteen points of Theorem~\ref{thm:C} in $\R^4$, after an affine map that makes the hull round and an orthogonal projection to $\R^3$ chosen to keep the points apart; the six inner points are drawn enlarged about their centre. Blue lines are the edges of the hull, which contain every pair of vertices except $x_1,x_7$; the orange polytope is the inner cyclic polytope $C_4(6)$.}\label{fig:ninefour}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}\centering
+\includegraphics[width=\linewidth]{figures/fig_ninethree.png}
+\caption{The three convex layers of the eighteen points of Theorem~\ref{thm:C} in $\R^3$: a capped octahedron (blue), a pentagonal bipyramid (orange) and a tetrahedron (green). Each layer is drawn after its own affine map and the layers are nested about a common centre, so the picture shows the true combinatorics and labels but not the true sizes.}\label{fig:ninethree}
+\end{minipage}
+\end{figure*}
+
+\begin{proof}[Proof of Theorem~\ref{thm:C}]
+Each row of Table~\ref{tab:certCfour} is a relation of $Y_4$, by the three checks of the proof of Theorem~\ref{thm:A}. Every one of the $\binom{13}{4}=715$ four-element subsets of the indices lies in one of the $\relCfour$ seven-element sets of the last column, so every $9$-subset of $Y_4$ contains the support of a relation, and $Y_4$ has no $9$ points in convex position by Proposition~\ref{prop:cover}. Its $\binom{13}{5}=1287$ determinants are nonzero, the smallest in absolute value being $\mindetCfour$. Each row of Tables~\ref{tab:certCthree} to~\ref{tab:certCthreec} is a relation of $Y_3$, and every one of the $\binom{18}{9}=48620$ subsets of size nine contains the support of one of these $\relCthree$ relations; this is verified as for Theorem~\ref{thm:B}, together with a direct test of every $9$-subset for convex position. The $\binom{18}{4}=3060$ determinants of $Y_3$ are nonzero, the smallest being $\mindetCthree$. Hence $g^{(4)}(9)\ge14$ and $g^{(3)}(9)\ge19$; holes are gons, so the same bounds hold for $h^{(4)}(9)$ and $h^{(3)}(9)$, and monotonicity gives $g^{(3)}(10)\ge20$.
+\end{proof}
+
+As before, the outer layer takes no part as the point $p$: every relation of $Y_4$ places one of $x_8,\dots,x_{13}$ inside a simplex, and every relation of $Y_3$ one of $x_8,\dots,x_{18}$, a vertex of the tetrahedron in $\relCthreeinner$ of the $\relCthree$ relations. A $9$-subset of $Y_4$ contains at least two of the six points of the cyclic polytope, and a $9$-subset of $Y_3$ at least two points of the two inner layers.
+
+%----------------------------------------------------------------------
 \section{How the sets were found}\label{sec:search}
 
-The sets were found by local search over coordinates. For a candidate set we counted its $k$-subsets in convex position, but a bare count gives the search nothing to follow, since most moves change it by zero. We therefore scored each $k$-subset $Y$ by how far it is from failing: for every point $p$ of $Y$ and every simplex $\sigma$ of other points of $Y$, the least barycentric coordinate of $p$ with respect to $\sigma$ measures how far $p$ is from being inside, and the score of $Y$ is $f$ of the smallest such violation over $p$ and $\sigma$, with $f(t)=t/(1+t)$ for violations and $0$ for subsets that already fail. The total score is zero exactly for sets without $k$-gons. Simulated annealing on this score, with occasional \emph{repair moves} that take a point of a surviving $k$-gon and place it just inside the simplex of the subset nearest to it, found the eleven points in $\R^4$ and the fifteen points in $\R^3$.\footnote{Before these constructions we checked the status of the problem in the literature cited here and with the BLLM engine Anaxia \cite{Ana26}. The engine keeps indexes of DeepMind's formal-conjectures collection and AlphaEvolve problem repository, of the OpenRefute archive and of OpenAI's collection of mathematical manuscripts, and answers a query with the matching entries and their recorded status. For the Erd\H{o}s--Szekeres problem these indexes hold only the planar question (Erd\H{o}s problem~107 in the formal-conjectures collection and problem~58 of the AlphaEvolve repository) and no entry on $g^{(d)}(k)$ for $d\ge3$, which agreed with our reading of \cite{Sch23} and of the papers citing it. The two point sets of this paper were found and verified by the search and certificate programs of the archive \cite{BB26z}, not by the engine. The methods that found them, a graded count of violated subsets, repair moves that push a point just inside its nearest simplex, and the polishing of the least barycentric coordinate described below, were afterwards added to the engine as construction rules.}
+The sets were found by local search over coordinates. For a candidate set we counted its $k$-subsets in convex position, but a bare count gives the search nothing to follow, since most moves change it by zero. We therefore scored each $k$-subset $Y$ by how far it is from failing: for every point $p$ of $Y$ and every simplex $\sigma$ of other points of $Y$, the least barycentric coordinate of $p$ with respect to $\sigma$ measures how far $p$ is from being inside, and the score of $Y$ is $f$ of the smallest such violation over $p$ and $\sigma$, with $f(t)=t/(1+t)$ for violations and $0$ for subsets that already fail. The total score is zero exactly for sets without $k$-gons. Simulated annealing on this score, with occasional \emph{repair moves} that take a point of a surviving $k$-gon and place it just inside the simplex of the subset nearest to it, found the eleven points in $\R^4$ and the fifteen points in $\R^3$, and for $k=9$ the thirteen points in $\R^4$ and the eighteen points in $\R^3$.\footnote{Before these constructions we checked the status of the problem in the literature cited here and with the BLLM engine Anaxia \cite{Ana26}. The engine keeps indexes of DeepMind's formal-conjectures collection and AlphaEvolve problem repository, of the OpenRefute archive and of OpenAI's collection of mathematical manuscripts, and answers a query with the matching entries and their recorded status. For the Erd\H{o}s--Szekeres problem these indexes hold only the planar question (Erd\H{o}s problem~107 in the formal-conjectures collection and problem~58 of the AlphaEvolve repository) and no entry on $g^{(d)}(k)$ for $d\ge3$, which agreed with our reading of \cite{Sch23} and of the papers citing it. The point sets of this paper were found and verified by the search and certificate programs of the archive \cite{BB26z}, not by the engine. The methods that found them, a graded count of violated subsets, repair moves that push a point just inside its nearest simplex, and the polishing of the least barycentric coordinate described below, were afterwards added to the engine as construction rules.}
 
-The sets so found have real coordinates and some relations with very small barycentric coordinates. We then \emph{polished} each set by hill climbing on the least barycentric coordinate over a fixed certificate, which doubled it for the set in $\R^3$, and rounded to the coarsest integer grid on which a certificate survives; this gave coordinates at most $\maxcoordA$ in $\R^4$ and at most $\maxcoordB$ in $\R^3$. Finally we chose a certificate with few relations and small weights by a randomised greedy covering followed by removal of redundant relations. None of these steps is part of the proof.
+The sets so found have real coordinates and some relations with very small barycentric coordinates. We then \emph{polished} each set by hill climbing on the least barycentric coordinate over a fixed certificate, which doubled it for the set in $\R^3$, and rounded to the coarsest integer grid on which a certificate survives; this gave coordinates at most $\maxcoordA$ and $\maxcoordCfour$ for the two sets in $\R^4$, and at most $\maxcoordB$ and $\maxcoordCthree$ for the two sets in $\R^3$. Finally we chose a certificate with few relations and small weights by a randomised greedy covering followed by removal of redundant relations. None of these steps is part of the proof.
 
 %----------------------------------------------------------------------
 \section{What remains open}\label{sec:open}
@@ -251,25 +304,25 @@ The value of $g^{(4)}(8)$ is now $12$ or $13$. The same search, run on twelve po
 
 In three dimensions the gap is wider: $16\le g^{(3)}(8)$, while the conjectured value is $21$. The layered structure of $X_3$ suggests adding a fourth layer inside the tetrahedron or replacing the tetrahedron by a larger polytope. The value of $h^{(3)}(8)$ is not even known to be finite \cite{Sch23}.
 
-Finally, the certificates are longer than the bounds of Remark~\ref{rem:schoenheim}: $\relA$ relations against $18$ in $\R^4$, and $\relB$ against $74$ in $\R^3$. In both sets the points $p$ of the relations are confined to the inner layers, so the supports are not spread evenly over the set, as a covering design meeting Sch\"onheim's bound would require.
+For nine points the bounds are $14\le g^{(4)}(9)$ and $19\le g^{(3)}(9)$, against the conjectured $17$ and $33$. The search, run on fourteen points in $\R^4$ and on nineteen points in $\R^3$, ended with sets that still contain $4$ and $12$ subsets of nine points in convex position, and adding one point to the sets of Theorem~\ref{thm:C} at any of the $123450$ and $51591$ sampled positions left at least nine and eight such subsets.
+
+Finally, the certificates are longer than the bounds of Remark~\ref{rem:schoenheim}: $\relA$ relations against $18$ and $\relCfour$ against $26$ in $\R^4$, and $\relB$ against $74$ and $\relCthree$ against $85$ in $\R^3$. In both sets the points $p$ of the relations are confined to the inner layers, so the supports are not spread evenly over the set, as a covering design meeting Sch\"onheim's bound would require.
 
 %----------------------------------------------------------------------
 \section*{Data and code availability}
-The coordinates, the certificates, the search, polishing and rounding programs, the independent checks in Python, C, C++ and Julia, the Lean~4 file that checks both certificates in the kernel, the figure programs and the \LaTeX{} source are in the repository \codeDOI{} and its Zenodo archive\zenodoDOI{} \cite{BB26z}. The status check of the problem was made with the BLLM engine Anaxia, release v3.0.5 \cite{Ana26}. Deep Bhattacharjee carried out the computations and the Python, C, C++, Julia, Lean and shell verifications with AI assistance (Claude, Anthropic).
+The coordinates, the certificates, the search, polishing and rounding programs, the independent checks in Python, C, C++ and Julia, the Lean~4 file that checks all four certificates in the kernel, the figure programs and the \LaTeX{} source are in the repository \codeDOI{} and its Zenodo archive\zenodoDOI{} \cite{BB26z}. The status check of the problem was made with the BLLM engine Anaxia, release v3.0.5 \cite{Ana26}. Deep Bhattacharjee carried out the computations and the Python, C, C++, Julia, Lean and shell verifications with AI assistance (Claude, Anthropic).
 
 \section*{Ethical declarations}
 Funding: none. Competing interests: none.
 
 \section*{Author contributions}
-Deep Bhattacharjee proposed the problem, carried out the searches and computations and wrote the paper. Ushashi Bhattacharya checked the relations of Table~\ref{tab:certA} and the proofs of Appendix~\ref{app:proofs}. Both authors approved the final version.
+Deep Bhattacharjee proposed the problem, carried out the searches and computations and wrote the paper. Ushashi Bhattacharya checked the relations of Tables~\ref{tab:certA} and~\ref{tab:certCfour} and the proofs of Appendix~\ref{app:proofs}. Both authors approved the final version.
 
 \appendix
 
 %----------------------------------------------------------------------
 \section{Proofs of the lemmas}\label{app:proofs}
 
-\input{tables/cert_r4}
-\input{tables/cert_r3}
 
 \emph{Barycentric coordinates.} Let $v_0,\dots,v_d\in\R^d$ with $D=\det(v_0,\dots,v_d)\ne0$. For a point $p$ the system $\sum_j\lambda_j=1$, $\sum_j\lambda_jv_j=p$ has the matrix whose columns are $(1,v_j)$, the transpose of the matrix defining $D$, so it has the unique solution
 \begin{equation}\label{eq:cramer}
@@ -283,12 +336,12 @@ by Cramer's rule. The point $p$ lies in the interior of $\conv\{v_0,\dots,v_d\}$
 
 \emph{The general position claim of Proposition~\ref{prop:cover}.} Each $\det(x_{i_0},\dots,x_{i_d})$ is a polynomial in the $d|X|$ coordinates that does not vanish identically, since it is nonzero on any set of $d+1$ affinely independent points. A finite union of zero sets of nonzero polynomials has empty interior, so every neighbourhood of a configuration contains configurations in general position.
 
-\emph{Sch\"onheim's bound.} A family of $s$-subsets of an $n$-set covering every $t$-subset has at least $\lceil\frac{n}{s}\lceil\frac{n-1}{s-1}\cdots\lceil\frac{n-t+1}{s-t+1}\rceil\cdots\rceil\rceil$ members \cite{Sch64}: the members containing a fixed point, with that point removed, cover all $(t-1)$-subsets of the remaining $n-1$ points, and counting incidences gives the recursion. For $(n,s,t)=(11,5,3)$ the bound is $\lceil\frac{11}{5}\lceil\frac{10}{4}\cdot3\rceil\rceil=\lceil\frac{11\cdot8}{5}\rceil=18$; for $(15,10,7)$ the nested values are $3,6,11,19,31,49,74$.
+\emph{Sch\"onheim's bound.} A family of $s$-subsets of an $n$-set covering every $t$-subset has at least $\lceil\frac{n}{s}\lceil\frac{n-1}{s-1}\cdots\lceil\frac{n-t+1}{s-t+1}\rceil\cdots\rceil\rceil$ members \cite{Sch64}: the members containing a fixed point, with that point removed, cover all $(t-1)$-subsets of the remaining $n-1$ points, and counting incidences gives the recursion. For $(n,s,t)=(11,5,3)$ the bound is $\lceil\frac{11}{5}\lceil\frac{10}{4}\cdot3\rceil\rceil=\lceil\frac{11\cdot8}{5}\rceil=18$; for $(15,10,7)$ the nested values are $3,6,11,19,31,49,74$. For $k=9$ the thirteen points in $\R^4$ give $(n,s,t)=(13,7,4)$, with nested values $3,7,14,26$, and the eighteen points in $\R^3$ give $(18,13,9)$, with nested values $2,4,7,12,19,29,43,61,85$.
 
 %----------------------------------------------------------------------
 \section{The certificates}\label{app:certA}\label{app:certB}
 
-Table~\ref{tab:certA} lists the $\relA$ relations of $X_4$, and Tables~\ref{tab:certB} and~\ref{tab:certBb} the $\relB$ relations of $X_3$, ordered by $p$ and then by $\sigma$. The weights are the integers $m_j=M\lambda_j$ with $\gcd(m_0,\dots,m_d)=1$; the largest $M$ is $\maxMA$ for $X_4$ and $\maxMB$ for $X_3$. To check a row, multiply each point $x_{s_j}$ by $m_j$, add, and compare with $Mx_p$ coordinate by coordinate; then compute one determinant of size $d+1$, whose absolute value must be $gM$.
+Table~\ref{tab:certA} lists the $\relA$ relations of $X_4$, Tables~\ref{tab:certB} and~\ref{tab:certBb} the $\relB$ relations of $X_3$, Table~\ref{tab:certCfour} the $\relCfour$ relations of $Y_4$, and Tables~\ref{tab:certCthree} to~\ref{tab:certCthreec} the $\relCthree$ relations of $Y_3$, each ordered by $p$ and then by $\sigma$. The weights are the integers $m_j=M\lambda_j$ with $\gcd(m_0,\dots,m_d)=1$; the largest $M$ is $\maxMA$ for $X_4$, $\maxMB$ for $X_3$, $\maxMCfour$ for $Y_4$ and $\maxMCthree$ for $Y_3$. To check a row, multiply each point $x_{s_j}$ by $m_j$, add, and compare with $Mx_p$ coordinate by coordinate; then compute one determinant of size $d+1$, whose absolute value must be $gM$.
 
 %----------------------------------------------------------------------
 \begin{thebibliography}{99}\rightskip=0pt plus 3em
@@ -335,8 +388,15 @@ Table~\ref{tab:certA} lists the $\relA$ relations of $X_4$, and Tables~\ref{tab:
 
 \bibitem{Ana26} D.~Bhattacharjee and U.~Bhattacharya, Anaxia, the BLLM engine: verifier-gated conjecture closure, release v3.0.5 (2026), \href{https://doi.org/10.5281/zenodo.23469389}{doi:10.5281/zenodo.23469389} (all versions \href{https://doi.org/10.5281/zenodo.23286641}{doi:10.5281/zenodo.23286641}), with the paper \emph{BLLM: Beyond the LLM with Deep Human-Mind-AI}, \url{https://github.com/creelie/eBLLM}.
 
-\bibitem{BB26z} D.~Bhattacharjee and U.~Bhattacharya, New lower bounds for Erd\H{o}s--Szekeres numbers in three and four dimensions: coordinates, certificates and checks, repository \url{https://github.com/creelie/Erdos-s1}, release v1.0.0 (2026)\zenodoDOI.
+\bibitem{BB26z} D.~Bhattacharjee and U.~Bhattacharya, New lower bounds for Erd\H{o}s--Szekeres numbers in three and four dimensions: coordinates, certificates and checks, repository \url{https://github.com/creelie/Erdos-s1}, release v1.1.0 (2026)\zenodoDOI.
 
 \end{thebibliography}
+
+\clearpage
+\input{tables/cert_r4}
+\input{tables/cert_r3}
+\input{tables/cert_r4_k9}
+\input{tables/cert_r3_k9}
+
 
 \end{document}

@@ -171,9 +171,15 @@ def main():
     P3 = json.load(open(os.path.join(HD, "witness_r3_15.json")))
     R3 = json.load(open(os.path.join(HD, "cert_r3_15.json")))
     PS = json.load(open(os.path.join(HD, "scheucher_r3_12.json")))
+    Q4 = json.load(open(os.path.join(HD, "witness_r4_13_k9.json")))
+    S4 = json.load(open(os.path.join(HD, "cert_r4_13_k9.json")))
+    Q3 = json.load(open(os.path.join(HD, "witness_r3_18_k9.json")))
+    S3 = json.load(open(os.path.join(HD, "cert_r3_18_k9.json")))
 
     check_set("X4", P4, R4, 4, 8, 40, 11, 28)
     check_set("X3", P3, R3, 3, 8, 180, 6, 161)
+    check_set("Y4", Q4, S4, 4, 9, 50, 21, 46)
+    check_set("Y3", Q3, S3, 3, 9, 150, 18, 282)
 
     print("== structure of X4 (Proposition III.1)")
     L4 = convex_layers(P4, 4)
@@ -206,6 +212,23 @@ def main():
     ok(ps == set(range(5, 15)), "X3: the points p run through x6..x15 and never through x1..x5")
     ok(sum(1 for r in R3 if r["p"] >= 11) == 90, "X3: 90 relations have p in the tetrahedron")
     ok(max(sum(r["weights"]) for r in R3) == 261355, "X3: largest M = 261355")
+
+    print("== structure of Y4 (Proposition V.1)")
+    LY4 = convex_layers(Q4, 4)
+    ok([sorted(v) for v in LY4] == [list(range(7)), list(range(7, 13))], "Y4: hull vertices x1..x7, x8..x13 interior")
+    FY4 = facets(Q4, list(range(7)), 4)
+    FY4i = facets(Q4, list(range(7, 13)), 4)
+    ok(len(FY4) == 13 and len(FY4i) == 9, "Y4: the outer polytope has 13 facets, the inner one 9")
+    ok(all(r["p"] in range(7, 13) for r in S4), "Y4: every relation has p among x8..x13")
+    ok(max(sum(r["weights"]) for r in S4) == 185165, "Y4: largest M = 185165")
+
+    print("== structure of Y3 (Proposition V.2)")
+    LY3 = convex_layers(Q3, 3)
+    ok([sorted(v) for v in LY3] == [list(range(7)), list(range(7, 14)), list(range(14, 18))], "Y3: layers 7, 7, 4")
+    ok(len(facets(Q3, list(range(7)), 3)) == 10 and len(facets(Q3, list(range(7, 14)), 3)) == 10,
+       "Y3: the two outer layers are simplicial polytopes with 10 facets")
+    ok({r["p"] for r in S3} == set(range(7, 18)), "Y3: the points p run through x8..x18 and never through x1..x7")
+    ok(max(sum(r["weights"]) for r in S3) == 189499, "Y3: largest M = 189499")
 
     print("== Scheucher's twelve points in R^3 without a 7-gon")
     LS = convex_layers(PS, 3)
