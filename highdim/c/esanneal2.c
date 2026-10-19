@@ -91,8 +91,22 @@ static double closeness(u64 S){   /* min violation over p in S, simplex in S-p *
   }
   return best;
 }
+static int hole = 0;          /* ES_HOLE=1: count only empty convex k-sets (k-holes) */
 static void dfs(u64 T, int size, int start){
-  if (size==k){ cnt++; double x=closeness(T); grad += x/(1+x); return; }
+  if (size==k){
+    double x=closeness(T);
+    if (hole){
+      for (int q=0;q<n;q++){ if (T>>q&1) continue;
+        for (int i=0;i<Wn[q];i++) if ((W[q][i] & T)==W[q][i]) return;   /* q inside conv(T): not a hole */
+        int b[MAXN], r=0; for (u64 t=T; t; t&=t-1) b[r++]=__builtin_ctzll(t);
+        int c[MAXD+1]; for (int i=0;i<=d;i++) c[i]=i;
+        while (1){ u64 m=0; for (int i=0;i<=d;i++) m|=1ULL<<b[c[i]];
+          double v=NM[q][rank(m)]; if (v<x) x=v;
+          int i=d; while (i>=0 && c[i]==r-d-1+i) i--; if (i<0) break;
+          c[i]++; for (int j=i+1;j<=d;j++) c[j]=c[j-1]+1; }
+      }
+    }
+    cnt++; grad += x/(1+x); return; }
   for (int q=start;q<n;q++) if (n-q >= k-size && convex_with(T,q)) dfs(T|(1ULL<<q), size+1, q+1);
 }
 static double cost(void){ build(); cnt=0; grad=0; dfs(0,0,0); return cnt + wgt*grad; }
@@ -102,6 +116,7 @@ int main(int argc, char **argv){
   if (argc<6){ fprintf(stderr,"usage: esanneal2 n d k seed seconds [init.txt]\n"); return 2; }
   n=atoi(argv[1]); d=atoi(argv[2]); k=atoi(argv[3]); int seed=atoi(argv[4]); double secs=atof(argv[5]);
   if (getenv("ES_W")) wgt=atof(getenv("ES_W"));
+  if (getenv("ES_HOLE")) hole=atoi(getenv("ES_HOLE"));
   for (int i=0;i<=MAXN;i++){ Cb[i][0]=1; for (int j=1;j<=MAXN;j++) Cb[i][j]= i? Cb[i-1][j-1]+Cb[i-1][j] : 0; }
   nsimp=Cb[n][d+1]; for (int p=0;p<n;p++) NM[p]=calloc(nsimp,sizeof(float));
   rs ^= (u64)seed*0x9E3779B97F4A7C15ULL; for(int i=0;i<10;i++) rnd();
@@ -109,7 +124,7 @@ int main(int argc, char **argv){
   if (argc>6){ FILE *f=fopen(argv[6],"r"); if (!f){ perror(argv[6]); return 2; }
     while (m0<n && fscanf(f,"%lf",&P[m0][0])==1){ for(int j=1;j<d;j++) if (fscanf(f,"%lf",&P[m0][j])!=1) break; m0++; } fclose(f); }
   for (int i=m0;i<n;i++) for(int j=0;j<d;j++) P[i][j] = m0? P[rnd()%m0][j]+0.05*gauss() : gauss();
-  char fn[128]; sprintf(fn,"best2_%d_%d_%d_%d.txt",n,d,k,seed);
+  char fn[128]; sprintf(fn,hole?"bestH_%d_%d_%d_%d.txt":"best2_%d_%d_%d_%d.txt",n,d,k,seed);
   double c=cost(), best=c; long bestcnt=cnt; double Best[MAXN][MAXD], BestC[MAXN][MAXD]; memcpy(Best,P,sizeof(P)); memcpy(BestC,P,sizeof(P));
   double T=1.0; long it=0, lastimp=0; time_t t0=time(NULL);
   printf("start cost %.4f (count %ld)\n", c, cnt); fflush(stdout);

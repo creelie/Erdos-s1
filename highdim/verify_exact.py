@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Exact check, in integer arithmetic, that a set of integer points in R^d is
 in general position and has no k points in convex position.
-Usage: verify_exact.py points.json d k   (points.json: list of integer lists)"""
+With --hole, count only empty convex k-sets (k-holes): convex k-sets whose
+convex hull contains no other point of the set.
+Usage: verify_exact.py points.json d k [--hole]   (points.json: list of integer lists)"""
 import sys, json, itertools
 
 def det(M):
@@ -23,7 +25,7 @@ def det(M):
 def orient(P, idx):
     return det([[1] * len(idx)] + [[P[i][j] for i in idx] for j in range(len(P[0]))])
 
-def main(P, d, k):
+def main(P, d, k, hole=False):
     n = len(P)
     sgn = {}
     for S in itertools.combinations(range(n), d + 1):
@@ -40,13 +42,20 @@ def main(P, d, k):
             if (o > 0) != s0:
                 return False
         return True
-    wit = [(1 << p) | sum(1 << s for s in S)
-           for p in range(n) for S in itertools.combinations([i for i in range(n) if i != p], d + 1)
-           if inside(p, S)]
+    inner = [(p, sum(1 << s for s in S))
+             for p in range(n) for S in itertools.combinations([i for i in range(n) if i != p], d + 1)
+             if inside(p, S)]
+    wit = [(1 << p) | m for p, m in inner]
     bad = [T for T in itertools.combinations(range(n), k)
            if not any((w & sum(1 << t for t in T)) == w for w in wit)]
+    if hole:
+        def empty(T):
+            m = sum(1 << t for t in T)
+            return not any(not (m >> q & 1) and (S & m) == S for q, S in inner)
+        bad = [T for T in bad if empty(T)]
+        return f"n={n} d={d} k={k}: general position OK; empty convex {k}-sets: {len(bad)}" + (f" e.g. {bad[0]}" if bad else "")
     return f"n={n} d={d} k={k}: general position OK; convex {k}-subsets: {len(bad)}" + (f" e.g. {bad[0]}" if bad else "")
 
 if __name__ == "__main__":
     P = json.load(open(sys.argv[1])); d, k = int(sys.argv[2]), int(sys.argv[3])
-    print(main(P, d, k))
+    print(main(P, d, k, hole="--hole" in sys.argv))
