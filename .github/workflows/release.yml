@@ -1,6 +1,6 @@
 name: release
 
-# Run by hand from the Actions tab (or the API) after the PR is merged: it checks both
+# Run by hand from the Actions tab (or the API) after the PR is merged: it checks the four
 # certificates in the Lean kernel, runs the C and C++ checks, checks the release files,
 # tags the chosen commit and publishes a GitHub release with the files in dist/ and the
 # notes in .github/RELEASE_NOTES.md. Zenodo archives the release and mints a DOI when the
@@ -13,7 +13,7 @@ on:
       tag:
         description: "Release tag, e.g. v1.0.0"
         required: true
-        default: "v1.0.0"
+        default: "v1.1.0"
       target:
         description: "Branch or commit to tag"
         required: true

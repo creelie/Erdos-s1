@@ -13,7 +13,7 @@ authors:
     orcid: "https://orcid.org/0009-0002-2254-3914"
     affiliation: "Formerly, National Taiwan University, Taipei 106319, Taiwan"
     email: rai.bhattacharya.in@gmail.com
-version: 1.0.0
+version: 1.1.0
 date-released: 2026-10-19
 license: MIT
 repository-code: "https://github.com/creelie/Erdos-s1"
@@ -23,11 +23,12 @@ keywords:
   - points in higher dimensions
   - interior-point certificates
 abstract: >-
-  Eleven integer points in general position in four-dimensional space with no
-  eight in convex position, and fifteen in three-dimensional space with no
-  eight in convex position, with certificates that each eight points contain a
-  point inside a simplex of others. Hence g(4)(8) is 12 or 13 and
-  g(3)(8) >= 16.
+  Eleven integer points in general position in four-dimensional space and
+  fifteen in three-dimensional space with no eight in convex position, and
+  thirteen in four-dimensional space and eighteen in three-dimensional space
+  with no nine in convex position, with certificates that each k points
+  contain a point inside a simplex of others. Hence g(4)(8) is 12 or 13,
+  g(3)(8) >= 16, g(4)(9) >= 14 and g(3)(9) >= 19.
 references:
   - type: article
     title: "A SAT attack on Erdős–Szekeres numbers in R^d and the empty hexagon theorem"

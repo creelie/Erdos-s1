@@ -14,3 +14,8 @@ paper/*.out
 paper/*.toc
 paper/*Notes.bib
 paper/main.pdf
+highdim/c/extend
+highdim/c/*_pol*.txt
+highdim/c/w3.txt
+highdim/c/w4.txt
+journal/build/

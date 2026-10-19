@@ -5,52 +5,58 @@ Deep Bhattacharjee (corresponding author, ORCID [0000-0003-0466-750X](https://or
 Paper: [`preprintErdosSzekeresHighDim/ErdosSzekeresHighDim.pdf`](preprintErdosSzekeresHighDim/ErdosSzekeresHighDim.pdf).
 Everything in one file: [`MasterErdosSzekeresHighDim_masterzipfinal2.zip`](MasterErdosSzekeresHighDim_masterzipfinal2.zip).
 
-Let g⁽ᵈ⁾(k) be the least number such that every set of that many points in general position in ℝᵈ contains k points in convex position. Scheucher (Comput. Geom. Topol. 2 (2023), doi:10.57717/cgt.v2i1.12) proved g⁽³⁾(7) = 13, g⁽⁴⁾(8) ≤ 13 and g⁽⁵⁾(9) ≤ 13; the lower bounds g⁽⁴⁾(8) ≥ 11 and g⁽³⁾(8) ≥ 14 were the best known.
+Let g⁽ᵈ⁾(k) be the least number such that every set of that many points in general position in ℝᵈ contains k points in convex position. Scheucher (Comput. Geom. Topol. 2 (2023), doi:10.57717/cgt.v2i1.12) proved g⁽³⁾(7) = 13, g⁽⁴⁾(8) ≤ 13 and g⁽⁵⁾(9) ≤ 13; the lower bounds g⁽⁴⁾(8) ≥ 11, g⁽³⁾(8) ≥ 14, g⁽⁴⁾(9) ≥ 13 and g⁽³⁾(9) ≥ 15 were the best known.
 
 **Theorem A.** There are eleven integer points in general position in ℝ⁴, with coordinates between 0 and 40, no eight of which are in convex position. Hence g⁽⁴⁾(8) ≥ 12 and h⁽⁴⁾(8) ≥ 12, so both numbers are 12 or 13.
 
-**Theorem B.** There are fifteen integer points in general position in ℝ³, with coordinates between 0 and 180, no eight of which are in convex position. Hence g⁽³⁾(8) ≥ 16, h⁽³⁾(8) ≥ 16 and g⁽³⁾(9) ≥ 17.
+**Theorem B.** There are fifteen integer points in general position in ℝ³, with coordinates between 0 and 180, no eight of which are in convex position. Hence g⁽³⁾(8) ≥ 16 and h⁽³⁾(8) ≥ 16.
 
-Each proof is a certificate: a list of relations Σⱼ mⱼ x_{sⱼ} = M x_p with positive integer weights mⱼ, each placing one point strictly inside a simplex of others, such that every 8 of the points contain the d + 2 points of some relation. Theorem A needs 28 relations and Theorem B 161.
+**Theorem C.** There are thirteen integer points in general position in ℝ⁴, with coordinates between 0 and 50, and eighteen in ℝ³, with coordinates between 0 and 150, no nine of which are in convex position. Hence g⁽⁴⁾(9) ≥ 14, h⁽⁴⁾(9) ≥ 14, g⁽³⁾(9) ≥ 19, h⁽³⁾(9) ≥ 19 and g⁽³⁾(10) ≥ 20.
 
-| set | points | coordinates | relations | 8-subsets | convex 7-subsets | convex 8-subsets |
+Each proof is a certificate: a list of relations Σⱼ mⱼ x_{sⱼ} = M x_p with positive integer weights mⱼ, each placing one point strictly inside a simplex of others, such that every k of the points contain the d + 2 points of some relation. Theorem A needs 28 relations, Theorem B 161, and Theorem C 46 in ℝ⁴ and 282 in ℝ³.
+
+| set | points | k | coordinates | relations | k-subsets | convex k-subsets |
 |---|---|---|---|---|---|---|
-| X₄ ⊂ ℝ⁴ | 11 | 0 to 40 | 28 | 165 | 107 | 0 |
-| X₃ ⊂ ℝ³ | 15 | 0 to 180 | 161 | 6435 | 325 | 0 |
+| X₄ ⊂ ℝ⁴ | 11 | 8 | 0 to 40 | 28 | 165 | 0 |
+| X₃ ⊂ ℝ³ | 15 | 8 | 0 to 180 | 161 | 6435 | 0 |
+| Y₄ ⊂ ℝ⁴ | 13 | 9 | 0 to 50 | 46 | 715 | 0 |
+| Y₃ ⊂ ℝ³ | 18 | 9 | 0 to 150 | 282 | 48620 | 0 |
 
-Not proved: the exact values. The searches for twelve points in ℝ⁴ without an 8-gon (which would give g⁽⁴⁾(8) = 13) and for sixteen points in ℝ³ without an 8-gon ended with sets that still contain four convex 8-subsets.
+Not proved: the exact values. The searches for twelve points in ℝ⁴ without an 8-gon (which would give g⁽⁴⁾(8) = 13) and for sixteen points in ℝ³ without an 8-gon ended with sets that still contain four convex 8-subsets. For nine points the searches on fourteen points in ℝ⁴ and nineteen in ℝ³ ended with sets that still contain 4 and 12 convex 9-subsets, and adding one point to Y₄ or Y₃ at any of 123450 and 51591 sampled positions left at least nine and eight.
 
 ## Layout
 
 | path | content |
 |---|---|
-| `highdim/witness_r4_11.json`, `highdim/witness_r3_15.json` | the two point sets (lists of integer coordinates; the paper's x_{i+1} is entry i) |
-| `highdim/cert_r4_11.json`, `highdim/cert_r3_15.json` | the certificates: for each relation `p`, `simplex`, `weights` and the determinant `orient` (indices from 0) |
+| `highdim/witness_r4_11.json`, `highdim/witness_r3_15.json`, `highdim/witness_r4_13_k9.json`, `highdim/witness_r3_18_k9.json` | the four point sets (lists of integer coordinates; the paper's x_{i+1} is entry i) |
+| `highdim/cert_r4_11.json`, `highdim/cert_r3_15.json`, `highdim/cert_r4_13_k9.json`, `highdim/cert_r3_18_k9.json` | the certificates: for each relation `p`, `simplex`, `weights` and the determinant `orient` (indices from 0) |
 | `highdim/scheucher_r3_12.json` | Scheucher's twelve points in ℝ³ without a 7-gon, for comparison |
-| `checks/python/check_all.py` | every computational claim of the paper, in exact integer arithmetic (980 checks) |
+| `checks/python/check_all.py` | every computational claim of the paper, in exact integer arithmetic (2646 checks) |
 | `checks/c/check.c` | brute force over all subsets, ignoring the certificates |
 | `checks/cpp/check.cpp` | the certificates: identities, determinants, Cramer numerators, covering |
 | `checks/julia/check.jl` | relations, covering and brute force in BigInt |
 | `checks/lean/ErdosSzekeresCertificates.lean` | general position, the relations and the covering condition, proved by the Lean 4 kernel (generated by `make_lean.py`) |
 | `highdim/search.py`, `anneal.py`, `c/esanneal*.c` | the searches (graded score, annealing, repair moves) |
+| `highdim/c/extend.c` | one-point extensions of a set: counts the k-gons created by a new point, by cells of the hyperplane arrangement |
 | `highdim/c/polish.c`, `round_small.py`, `to_int.py`, `relabel.py` | polishing, rounding to small integers, relabelling by convex layers |
 | `highdim/cert.py`, `certmin.py` | certificate generation and minimisation |
 | `highdim/verify_exact.py` | exact convex-position test of all k-subsets |
 | `paper/` | the LaTeX source (REVTeX 4.2), `make_tables.py` (writes the tables from the JSON files and rechecks them) and the figures |
-| `figures/make_figures.py` | the four 3D figures |
+| `figures/make_figures.py` | the six 3D figures |
 | `code/` | an earlier attempt to prove the conjectured planar value g⁽²⁾(7) = 33 by satisfiability solving; the cost estimate showed it is out of reach here |
-| `dist/` | the PDF, the LaTeX source zip and the arXiv tarball |
+| `journal/make_journal.py` | writes the journal version (AMS article class, one column) from the REVTeX source |
+| `dist/` | the PDF, the LaTeX source zip, the arXiv tarball, and the journal version with its source zip |
 | `HEXAGON_FORM.md`, `AI_PROVENANCE_ErdosSzekeresHighDim.md`, `journal/JOURNAL.md` | submission notes |
 
 ## Checking
 
 ```sh
-bash scripts/run_all.sh            # Lean, Python, Julia, C and C++ (Lean takes about seven minutes)
+bash scripts/run_all.sh            # Lean, Python, Julia, C and C++ (Lean takes about ten minutes and 8 GB of memory)
 bash scripts/run_all.sh --no-lean  # the rest
-python3 checks/python/check_all.py # ends with "980 checks passed, 0 failed"
+python3 checks/python/check_all.py # ends with "2646 checks passed, 0 failed"
 ```
 
-The Lean file uses core Lean 4 only (no Mathlib); `checks/lean/lean-toolchain` pins v4.24.0. Six of its eight theorems depend on no axiom, and the two covering theorems on `propext` only.
+The Lean file uses core Lean 4 only (no Mathlib); `checks/lean/lean-toolchain` pins v4.24.0. For each of the four sets it proves general position, the relations, the sizes and the covering condition; twelve of these sixteen theorems depend on no axiom, and the four covering theorems on `propext` only. General position is checked in pieces of 200 or 400 subsets, joined by the axiom-free lemma `all_split`, so that the kernel stays within memory.
 
 ## Rebuilding the paper
 
@@ -58,7 +64,7 @@ The Lean file uses core Lean 4 only (no Mathlib); `checks/lean/lean-toolchain` p
 bash scripts/build_paper.sh
 ```
 
-This reruns `paper/make_tables.py`, compiles the paper three times with pdflatex (no BibTeX) and stops on any overfull or underfull box, undefined reference or stuck float, and writes `dist/`, `preprintErdosSzekeresHighDim/` and the master zip.
+This reruns `paper/make_tables.py`, compiles the paper three times with pdflatex (no BibTeX) and stops on any overfull or underfull box, undefined reference or stuck float, builds the journal version with the same checks, and writes `dist/`, `preprintErdosSzekeresHighDim/` and the master zip.
 
 ## Citation
 
