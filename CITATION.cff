@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "New lower bounds for Erdős–Szekeres numbers in three and four dimensions"
+type: software
+authors:
+  - family-names: Bhattacharjee
+    given-names: Deep
+    orcid: "https://orcid.org/0000-0003-0466-750X"
+    affiliation: "Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India; Formerly, University of Calcutta, Senate House, 87/1 College Street, Kolkata 700073, West Bengal, India"
+    email: itsdeep@live.com
+  - family-names: Bhattacharya
+    given-names: Ushashi
+    orcid: "https://orcid.org/0009-0002-2254-3914"
+    affiliation: "Formerly, National Taiwan University, Taipei 106319, Taiwan"
+    email: rai.bhattacharya.in@gmail.com
+version: 1.0.0
+date-released: 2026-10-19
+license: MIT
+repository-code: "https://github.com/creelie/Erdos-s1"
+keywords:
+  - Erdős–Szekeres problem
+  - convex position
+  - points in higher dimensions
+  - interior-point certificates
+abstract: >-
+  Eleven integer points in general position in four-dimensional space with no
+  eight in convex position, and fifteen in three-dimensional space with no
+  eight in convex position, with certificates that each eight points contain a
+  point inside a simplex of others. Hence g(4)(8) is 12 or 13 and
+  g(3)(8) >= 16.
+references:
+  - type: article
+    title: "A SAT attack on Erdős–Szekeres numbers in R^d and the empty hexagon theorem"
+    authors:
+      - family-names: Scheucher
+        given-names: Manfred
+    year: 2023
+    doi: "10.57717/cgt.v2i1.12"
+  - type: article
+    title: "The Erdős–Szekeres problem on points in convex position—a survey"
+    authors:
+      - family-names: Morris
+        given-names: Walter
+      - family-names: Soltan
+        given-names: Valeriu
+    year: 2000
+    doi: "10.1090/S0273-0979-00-00877-6"

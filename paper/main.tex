@@ -1,0 +1,342 @@
+\documentclass[aps,prd,twocolumn,superscriptaddress,nofootinbib,longbibliography,floatfix,showkeys,amsmath,amssymb,10pt]{revtex4-2}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{orcidlink}
+\usepackage[protrusion=true,expansion=false]{microtype}
+\usepackage{xurl}
+\makeatletter\let\write@bibliographystyle\relax\let\bibliography@latex\@gobble\makeatother
+\makeatletter\def\tocdim@min{2.2em}\makeatother
+\setcounter{tocdepth}{1}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{plain}
+\newtheorem{mainthm}{Theorem}
+\renewcommand{\themainthm}{\Alph{mainthm}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\inter}{\operatorname{int}}
+\newcommand{\codeDOI}{\href{https://github.com/creelie/Erdos-s1}{\nolinkurl{github.com/creelie/Erdos-s1}}}
+\def\zenodoID{}% the version DOI of the release, once Zenodo has minted it
+\newcommand{\zenodoDOI}{\ifx\zenodoID\empty\else, \href{https://doi.org/\zenodoID}{doi:\zenodoID}\fi}
+\input{tables/numbers}
+\tolerance=2000
+\emergencystretch=2em
+\hbadness=2000
+\hfuzz=1pt
+\AtBeginDocument{\setlength{\abovedisplayskip}{6pt plus 1pt minus 2pt}\setlength{\belowdisplayskip}{6pt plus 1pt minus 2pt}\setlength{\abovedisplayshortskip}{3pt plus 1pt}\setlength{\belowdisplayshortskip}{4pt plus 1pt minus 1pt}}
+
+\begin{document}
+
+\title{New Lower Bounds for Erd\H{o}s--Szekeres Numbers in Three and Four Dimensions}
+
+\author{Deep Bhattacharjee\,\orcidlink{0000-0003-0466-750X}}
+\email{itsdeep@live.com}
+\thanks{Corresponding author. Second address: \nolinkurl{d.bhattacharjee@erl-forschung.de}.}
+\affiliation{Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India}
+\affiliation{Formerly, University of Calcutta, Senate House, 87/1 College Street, Kolkata 700073, West Bengal, India}
+
+\author{Ushashi Bhattacharya\,\orcidlink{0009-0002-2254-3914}}
+\email{rai.bhattacharya.in@gmail.com}
+\affiliation{Formerly, National Taiwan University, Taipei 106319, Taiwan}
+
+\date{October 19, 2026}
+
+\begin{abstract}
+\itshape
+We construct eleven points in general position in four-dimensional space with no eight of them in convex position, and fifteen points in general position in three-dimensional space with no eight of them in convex position. The first set raises the lower bound for the least number of points in four-space that forces eight in convex position from eleven to twelve, so that this number is now known to be twelve or thirteen. The second raises the corresponding lower bound in three-space from fourteen to sixteen. Both sets have small integer coordinates, and each proof is a finite list of identities that place one point of the set strictly inside a simplex spanned by others.
+\par\medskip\upshape\noindent\textit{2020 Mathematics Subject Classification.} 52C10; 52A37; 05D10.
+\end{abstract}
+
+\keywords{Erd\H{o}s--Szekeres problem; convex position; points in higher dimensions; interior-point certificates}
+
+\maketitle
+\makeatletter\renewcommand\l@subsection[2]{}\renewcommand\l@subsubsection[2]{}\makeatother
+\tableofcontents
+
+%----------------------------------------------------------------------
+\section{Introduction}\label{sec:intro}
+
+A finite set of points in $\R^d$ is in \emph{general position} if no $d+1$ of its points lie on a common hyperplane, and in \emph{convex position} if none of its points lies in the convex hull of the others. A set of $k$ points in convex position is a \emph{$k$-gon}; a $k$-gon of a set $X$ is a \emph{$k$-hole} of $X$ if its convex hull contains no other point of $X$.
+
+In 1935 Erd\H{o}s and Szekeres \cite{ES35} proved that for every $k$ there is a least integer $g^{(2)}(k)$ such that every set of $g^{(2)}(k)$ points in general position in the plane contains a $k$-gon.\footnote{The question came from Esther Klein, who had observed that five points in general position in the plane always contain the vertices of a convex quadrilateral; she married Szekeres soon after, and the result became known as the happy ending problem. The paper \cite{ES35} contains two proofs, one through Ramsey's theorem and one through cups and caps, and the second gives $g^{(2)}(k)\le\binom{2k-4}{k-2}+1$. Erd\H{o}s and Szekeres conjectured $g^{(2)}(k)=2^{k-2}+1$ and later constructed $2^{k-2}$ points without a $k$-gon, which shows that the conjectured value cannot be lowered. The survey of Morris and Soltan \cite{MS00} tells this history and collects the improvements of the upper bound up to 2000.} The value $g^{(2)}(5)=9$ goes back to Makai \cite{MS00}. Szekeres and Peters proved $g^{(2)}(6)=17$ with a computer search \cite{SP06}; Mari\'c gave a formally verified proof \cite{Mar19}, and Scheucher a proof by satisfiability solving \cite{Sch23}. In 2017 Suk proved $g^{(2)}(k)\le 2^{k+o(k)}$ \cite{Suk17}, so the conjecture holds up to the error term in the exponent. For holes the answer changes: there are arbitrarily large sets in general position in the plane without $7$-holes \cite{MS00}, while Heule and Scheucher proved that every $30$ points in general position contain a $6$-hole and that $29$ points do not suffice \cite{HS24}.
+
+The theorem holds in every dimension. Let $g^{(d)}(k)$ be the least integer such that every set of $g^{(d)}(k)$ points in general position in $\R^d$ contains a $k$-gon, and let $h^{(d)}(k)$ be the corresponding number for $k$-holes, possibly infinite. Projection onto a generic plane shows $g^{(d)}(k)\le g^{(2)}(k)$ \cite{MS00}, and Károlyi's dimension reduction \cite{Kar01} gives the sharper estimate $g^{(d)}(k)\le g^{(d-1)}(k-1)+1$. Károlyi and Valtr \cite{KV03} constructed sets showing $g^{(d)}(k)\ge c_d^{\,k^{1/(d-1)}}$ for a constant $c_d>1$, and Pohoata and Zakharov \cite{PZ25} proved $g^{(d)}(k)=2^{o(k)}$ for every $d\ge3$, so in three and more dimensions the growth is not even known up to the exponent. Valtr \cite{Val92} showed that sets without large holes exist in every dimension.
+
+The small values form a short list (Table~\ref{tab:known}). Trivially $g^{(d)}(k)=k$ for $k\le d+1$, and $g^{(d)}(d+2)=d+3$ by a theorem of Motzkin recorded by Danzer, Gr\"unbaum and Klee \cite{DGK63}; see also \cite{Gru03}. For $d+2\le k\le\lfloor 3d/2\rfloor+1$,
+\begin{equation}\label{eq:linear}
+g^{(d)}(k)=2k-d-1,
+\end{equation}
+where the lower bound is a construction of Bisztriczky and Harborth \cite{BH95}, the upper bound is due to Bisztriczky and Soltan \cite{BS94}, and the two are combined in \cite[Theorem~4.1]{MS00}. Beyond this range Bisztriczky and Soltan proved $g^{(3)}(6)=9$ \cite{BS94}. Morris and Soltan observed that all values known in 2000 with $k>\lfloor(3d+1)/2\rfloor$ satisfy $g^{(d)}(k)=4g^{(d)}(k-d)-3$ and conjectured this for all such $k$ \cite[Conjecture~4.2]{MS00}. In 2023 Scheucher \cite{Sch23} encoded the problem as a satisfiability question for acyclic chirotopes, the combinatorial abstraction of point sets, and proved
+\begin{equation}\label{eq:scheucher}
+g^{(3)}(7)=13,\qquad g^{(4)}(8)\le13,\qquad g^{(5)}(9)\le13,
+\end{equation}
+together with the same upper bounds for holes. His twelve points in $\R^3$ without a $7$-gon are integer points. His twelve-element witnesses in rank five and six are chirotopes that he proved to be non-realizable by points, and he conjectured that realizable witnesses exist. So the lower bounds $g^{(4)}(8)\ge11$ and $g^{(5)}(9)\ge12$ given by \eqref{eq:linear} remained in place, and in $\R^3$ the only lower bound for $g^{(3)}(8)$ was $g^{(3)}(7)+1=14$.\footnote{If $X$ has no $k$-gon and $y$ is any point with $X\cup\{y\}$ in general position, then $X\cup\{y\}$ has no $(k+1)$-gon, because removing $y$ from a $(k+1)$-gon leaves a $k$-gon of $X$. Hence $g^{(d)}(k+1)\ge g^{(d)}(k)+1$. The same argument applies to holes, since the convex hull of a subset of a hole contains no point of the set outside the hole.}
+
+\begin{table}[tb]
+\caption{Values and bounds of $g^{(d)}(k)$ for $3\le d\le5$ and $5\le k\le9$. Entries in bold are proved in this paper; the earlier lower bounds were $11$, $14$ and $15$. The upper bounds $13$ are Scheucher's \cite{Sch23}.}\label{tab:known}
+\begin{ruledtabular}
+\begin{tabular}{cccccc}
+ & $k=5$ & $k=6$ & $k=7$ & $k=8$ & $k=9$\\ \hline
+$d=3$ & $6$ & $9$ & $13$ & $\ge\mathbf{16}$ & $\ge\mathbf{17}$\\
+$d=4$ & $5$ & $7$ & $9$ & $\mathbf{12}$--$13$ & $\ge13$\\
+$d=5$ & $5$ & $6$ & $8$ & $10$ & $12$--$13$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_bounds.png}
+\caption{The values of $g^{(d)}(k)$ for $d=3,4,5$ and $k=5,\dots,9$. Blue bars are the values or lower bounds known before; red bars show the gain from Theorems~\ref{thm:A} and~\ref{thm:B}; the light orange blocks mark the ranges left open below Scheucher's upper bounds. Where no upper bound is drawn, only the lower bound is shown.}\label{fig:bounds}
+\end{figure}
+
+We prove the following.
+
+\begin{mainthm}\label{thm:A}
+There is a set of eleven points in general position in $\R^4$ with no eight points in convex position. Consequently $g^{(4)}(8)\ge12$ and $h^{(4)}(8)\ge12$, and by \eqref{eq:scheucher} both numbers lie in $\{12,13\}$.
+\end{mainthm}
+
+\begin{mainthm}\label{thm:B}
+There is a set of fifteen points in general position in $\R^3$ with no eight points in convex position. Consequently $g^{(3)}(8)\ge16$, $h^{(3)}(8)\ge16$ and $g^{(3)}(9)\ge17$.
+\end{mainthm}
+
+Theorem~\ref{thm:A} is the first lower bound beyond \eqref{eq:linear} in four dimensions, and it leaves two candidates for $g^{(4)}(8)$; the conjecture of Morris and Soltan and Scheucher's conjecture both predict $13$. Theorem~\ref{thm:B} raises the lower bound for $g^{(3)}(8)$ by two; the conjecture of Morris and Soltan predicts $g^{(3)}(8)=4g^{(3)}(5)-3=21$, and the best upper bound we know comes from dimension reduction and the planar estimate of T\'oth and Valtr, as in \cite{Sch23}.
+
+Both proofs are certificates. If $v_0,\dots,v_d$ are affinely independent points of $\R^d$ and
+\begin{equation}\label{eq:relation}
+\sum_{j=0}^{d} m_j v_j=M p,\qquad m_j\in\{1,2,3,\dots\},\quad M=\sum_{j=0}^d m_j,
+\end{equation}
+then $p$ lies in the interior of the simplex spanned by the $v_j$, and no set containing $p$ and the $v_j$ is in convex position. We call \eqref{eq:relation} a \emph{relation}. A set has no $k$-gon as soon as every $k$ of its points contain the $d+2$ points of some relation (Proposition~\ref{prop:cover}). Twenty-eight relations prove Theorem~\ref{thm:A} and $\relB$ prove Theorem~\ref{thm:B}; they are listed in Appendix~\ref{app:certA}. Each relation is an identity between integer vectors that can be checked by hand. That the relations meet every $8$-subset is a finite combinatorial condition: for Theorem~\ref{thm:A} it is a statement about $165$ triples, which Table~\ref{tab:certA} lets the reader check directly, and for Theorem~\ref{thm:B} it concerns $6435$ subsets and is checked by the programs of the archive. Since relations survive small perturbations (Lemma~\ref{lem:stable}), general position costs nothing; the integer sets we give are in general position as they stand.
+
+The two sets have a layered structure (Figures~\ref{fig:fourd} and~\ref{fig:layers}). The eleven points in $\R^4$ consist of the six vertices of a bipyramid over a tetrahedron and five points inside it, and every relation places one of the five inner points in a simplex. The fifteen points in $\R^3$ form three convex layers, a triangular bipyramid, an octahedron and a tetrahedron, and no relation places a vertex of the outer bipyramid inside a simplex. Scheucher's twelve points in $\R^3$ without a $7$-gon have convex layers of sizes $5$, $6$ and $1$, again a triangular bipyramid and an octahedron. For other extremal problems on explicit configurations in dimensions four and seven see \cite{BBB26a,BBB26b}, and for reflexive polytopes in dimension four see \cite{Bha26}.
+
+Section~\ref{sec:cert} proves the certificate criterion, Sections~\ref{sec:A} and~\ref{sec:B} prove Theorems~\ref{thm:A} and~\ref{thm:B}, Section~\ref{sec:search} explains how the sets were found, and Section~\ref{sec:open} discusses what remains open. Appendix~\ref{app:proofs} contains the detailed proofs of the lemmas of Section~\ref{sec:cert}, and Appendix~\ref{app:certA} the two certificates.
+
+%----------------------------------------------------------------------
+\section{Relations and certificates}\label{sec:cert}
+
+Throughout, $X$ is a finite set in $\R^d$ and $\conv$, $\inter$ denote the convex hull and the interior. For points $v_0,\dots,v_d$ write $\det(v_0,\dots,v_d)$ for the determinant of the $(d+1)\times(d+1)$ matrix whose rows are $(1,v_j)$; it vanishes exactly when the points lie on a common hyperplane, and its absolute value is $d!$ times the volume of the simplex they span.
+
+\begin{lemma}\label{lem:caratheodory}
+Let $X$ be in general position and $Y\subseteq X$. Then $Y$ is in convex position if and only if no point of $Y$ lies in $\inter\conv\sigma$ for a set $\sigma$ of $d+1$ other points of $Y$.
+\end{lemma}
+
+\begin{proof}
+If $p\in\inter\conv\sigma$ with $\sigma\subseteq Y\setminus\{p\}$, then $p\in\conv(Y\setminus\{p\})$ and $Y$ is not in convex position. Conversely, suppose $p\in\conv(Y\setminus\{p\})$. By Carath\'eodory's theorem \cite{Gru03} $p$ is a convex combination of affinely independent points $v_0,\dots,v_r$ of $Y\setminus\{p\}$, and we choose $r$ minimal, so all coefficients are positive. If $r<d$, then $p$ and $v_0,\dots,v_r$ are $r+2\le d+1$ points on an $r$-dimensional affine subspace, hence on a hyperplane, contrary to general position. So $r=d$, the simplex $\conv\{v_0,\dots,v_d\}$ is full-dimensional, and a point with positive barycentric coordinates lies in its interior.
+\end{proof}
+
+\begin{definition}\label{def:relation}
+A \emph{relation} of $X$ is a triple $(p,\sigma,m)$ where $p\in X$, $\sigma=\{v_0,\dots,v_d\}\subseteq X\setminus\{p\}$ satisfies $\det(v_0,\dots,v_d)\ne0$, and $m=(m_0,\dots,m_d)$ consists of positive integers with $\sum_jm_jv_j=Mp$, $M=\sum_jm_j$. Its \emph{support} is $\{p\}\cup\sigma$, a set of $d+2$ points.
+\end{definition}
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_relation.png}
+\caption{One relation of the set of Theorem~\ref{thm:B}, drawn after an affine map that turns the simplex into a regular tetrahedron and keeps barycentric coordinates. The point $p$ is the weighted mean of the four vertices with the positive integer weights shown. The small balls indicate that every point may move a little without $p$ leaving the simplex (Lemma~\ref{lem:stable}).}\label{fig:relation}
+\end{figure}
+
+\begin{lemma}\label{lem:interior}
+If $(p,\sigma,m)$ is a relation, then $p\in\inter\conv\sigma$, the barycentric coordinates of $p$ with respect to $\sigma$ are $m_j/M$, and if the points have integer coordinates and $\gcd(m_0,\dots,m_d)=1$, then $M$ divides $\det(v_0,\dots,v_d)$.
+\end{lemma}
+
+\begin{proof}
+The $v_j$ are affinely independent, so every point has unique barycentric coordinates with respect to them, and \eqref{eq:relation} shows that those of $p$ are $m_j/M>0$. Write $D=\det(v_0,\dots,v_d)$ and let $N_j$ be the same determinant with $v_j$ replaced by $p$. By Cramer's rule the $j$th barycentric coordinate of $p$ is $N_j/D$ (Appendix~\ref{app:proofs}), so $m_jD=MN_j$ for every $j$. The right-hand sides are integer multiples of $M$, and an integer combination of the $m_j$ equals $1$, hence $M$ divides $\det(v_0,\dots,v_d)$.
+\end{proof}
+
+In the tables of the appendices we record, for each relation, the integer $g=|\det(v_0,\dots,v_d)|/M$. A reader who checks one determinant per relation thereby also checks $\det\ne0$; Lemma~\ref{lem:interior} explains why $g$ is always an integer.
+
+\begin{lemma}\label{lem:stable}
+Let $(p,\sigma,m)$ be a relation of $X$. There is $\varepsilon>0$ such that for every map $x\mapsto x'$ with $|x'-x|<\varepsilon$ on the support, $p'$ lies in the interior of the simplex spanned by the images of $\sigma$.
+\end{lemma}
+
+\begin{proof}
+The barycentric coordinates of $p$ with respect to $\sigma$ are rational functions of the coordinates of the $d+2$ points whose common denominator is $\det(v_0,\dots,v_d)$. They are therefore continuous where this determinant does not vanish, and at the given points they are positive. Continuity gives an $\varepsilon$ that keeps the determinant nonzero and the coordinates positive. Appendix~\ref{app:proofs} gives an explicit $\varepsilon$.
+\end{proof}
+
+\begin{proposition}\label{prop:cover}
+Let $X$ be a finite set in $\R^d$ and $\mathcal{R}$ a set of relations of $X$ such that every $k$-subset of $X$ contains the support of some relation in $\mathcal{R}$. Then $X$ contains no $k$ points in convex position. Moreover, there is a set $X'$ in general position, obtained from $X$ by moving each point by an arbitrarily small amount, with the same property.
+\end{proposition}
+
+\begin{proof}
+Let $Y\subseteq X$ have $k$ points and let $(p,\sigma,m)$ be a relation with support in $Y$. By Lemma~\ref{lem:interior}, $p\in\conv\sigma\subseteq\conv(Y\setminus\{p\})$, so $Y$ is not in convex position. For the second statement let $\varepsilon$ be the least of the constants of Lemma~\ref{lem:stable} over the finitely many relations of $\mathcal R$. The configurations of $|X|$ points in $\R^d$ that are not in general position form the zero set of the product of the polynomials $\det(x_{i_0},\dots,x_{i_d})$, none of which vanishes identically, so they form a closed set with empty interior in $\R^{d|X|}$. Hence there are points $x'$ with $|x'-x|<\varepsilon$ in general position. Every relation of $\mathcal R$ still places $p'$ in the interior of the image simplex, so the first argument applies to $X'$.
+\end{proof}
+
+The condition of Proposition~\ref{prop:cover} can be stated through complements. A $k$-subset $Y$ contains the support $S$ of a relation if and only if $X\setminus Y\subseteq X\setminus S$. So if $|X|=n$, the sets $X\setminus S$ of size $n-d-2$ must cover every $(n-k)$-subset of $X$. This is a covering design, and Sch\"onheim's bound \cite{Sch64} gives a lower bound for the number of relations any such certificate needs.
+
+\begin{remark}\label{rem:schoenheim}
+A certificate in the sense of Proposition~\ref{prop:cover} for eleven points in $\R^4$ and $k=8$ covers the $3$-subsets of an $11$-set by $5$-sets, and needs at least $\lceil\frac{11}{5}\lceil\frac{10}{4}\lceil\frac{9}{3}\rceil\rceil\rceil=18$ relations. For fifteen points in $\R^3$ and $k=8$ it covers the $7$-subsets of a $15$-set by $10$-sets, and needs at least $74$ relations. Our certificates use $\relA$ and $\relB$ relations.
+\end{remark}
+
+By Lemma~\ref{lem:caratheodory} the method is complete: if a set in general position has no $k$-gon, then every $k$-subset contains a point in the interior of a simplex of other points of the subset, and when the coordinates are rational the barycentric coordinates are rational, so the relation can be written with integer weights. A certificate exists exactly when the set has no $k$-gon.
+
+%----------------------------------------------------------------------
+\section{Eleven points in four-space}\label{sec:A}
+
+Let $X_4=\{x_1,\dots,x_{11}\}\subset\R^4$ be the points of Table~\ref{tab:coordsA}. All coordinates lie between $0$ and $\maxcoordA$.
+
+\input{tables/coords_r4}
+
+\begin{proposition}\label{prop:structureA}
+The convex hull of $X_4$ is a bipyramid over a tetrahedron: its vertices are $x_1,\dots,x_6$, and its eight facets are the tetrahedra spanned by $x_1$ or $x_6$ together with three of $x_2,x_3,x_4,x_5$. The points $x_7,\dots,x_{11}$ lie in the interior.
+\end{proposition}
+
+\begin{proof}
+For each of the eight listed quadruples $\tau$ the determinants $\det(\tau,x)$ have one sign for all seven remaining points $x$ of $X_4$, which is a sign check of $56$ determinants. So the hyperplane through $\tau$ supports $\conv X_4$, and since $\tau$ consists of four affinely independent points it spans a facet. Each triangle contained in one of these eight tetrahedra lies in exactly two of them. In a convex polytope every ridge lies in exactly two facets and the facets are connected through ridges \cite{Zie95}, so these eight tetrahedra are all the facets of $\conv X_4$, and they are the facets of the bipyramid $\conv\{x_1,\dots,x_6\}$. The points $x_7,\dots,x_{11}$ lie strictly on the inner side of all eight facet hyperplanes, by the same sign check, so they are interior.
+\end{proof}
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_fourd.png}
+\caption{A schematic view of the set of Theorem~\ref{thm:A}, projected to three dimensions after an affine map that makes the hull a regular bipyramid. The tetrahedron $x_2x_3x_4x_5$ and the apexes $x_1$, $x_6$ span the hull; the five inner points (red) form a $4$-simplex, drawn enlarged. Every one of the $\relA$ relations of Table~\ref{tab:certA} places a red point inside a simplex of other points.}\label{fig:fourd}
+\end{figure}
+
+\begin{proof}[Proof of Theorem~\ref{thm:A}]
+Each row of Table~\ref{tab:certA} is a relation of $X_4$: the identity $\sum_jm_jx_{s_j}=Mx_p$ holds in each of the four coordinates, the weights are positive, and the determinant of the simplex is $\pm gM\ne0$. The last column of the table lists, for each relation, the five points outside its support. Every one of the $\binom{11}{3}=165$ triples of indices lies in one of these $\relA$ five-element sets. So the complement of every $8$-subset of $X_4$ lies outside the support of some relation, that is, every $8$-subset contains a support, and Proposition~\ref{prop:cover} shows that $X_4$ has no $8$ points in convex position. The set $X_4$ is itself in general position: the $\binom{11}{5}=462$ determinants of five of its points are all nonzero, the smallest in absolute value being $\mindetA$. Independently of this check, Proposition~\ref{prop:cover} provides a perturbation of $X_4$ in general position with the same property. Hence $g^{(4)}(8)\ge12$. An $8$-hole is an $8$-gon, so $h^{(4)}(8)\ge g^{(4)}(8)\ge12$, and Scheucher's bound $h^{(4)}(8)\le13$ \cite{Sch23} together with $g^{(4)}(8)\le h^{(4)}(8)$ gives the last statement.
+\end{proof}
+
+Every relation places one of the inner points $x_7,\dots,x_{11}$ in a simplex; the outer points are vertices of the hull and lie inside nothing. Any eight points of $X_4$ include at least two inner points, and the certificate shows that one of the inner points among them always lies inside a simplex spanned by four or five of the others.
+
+%----------------------------------------------------------------------
+\section{Fifteen points in three-space}\label{sec:B}
+
+Let $X_3=\{x_1,\dots,x_{15}\}\subset\R^3$ be the points of Table~\ref{tab:coordsB}. All coordinates lie between $0$ and $\maxcoordB$.
+
+\input{tables/coords_r3}
+
+\begin{proposition}\label{prop:structureB}
+The set $X_3$ has three convex layers. The vertices of $\conv X_3$ are $x_1,\dots,x_5$, forming a triangular bipyramid with apexes \LAYERONEAPEX{} over the triangle \LAYERONEBASE. The vertices of the convex hull of the remaining points are $x_6,\dots,x_{11}$, forming an octahedron whose opposite vertices are \LAYERTWOPAIRS. The points $x_{12},\dots,x_{15}$ span a tetrahedron inside it.
+\end{proposition}
+
+\begin{proof}
+As for Proposition~\ref{prop:structureA}. The six triangles of the bipyramid have constant sign of $\det(\tau,x)$ over the other twelve points of $X_3$, so they are facets of $\conv X_3$; every edge among them lies in exactly two, so they are all the facets, and the remaining ten points lie strictly inside. The eight triangles of the octahedron have constant sign over the other seven points of $\{x_6,\dots,x_{15}\}$ and close up in the same way, so they are the facets of the second layer, with $x_{12},\dots,x_{15}$ strictly inside. Four points in general position span a tetrahedron.
+\end{proof}
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_layers.png}
+\caption{The three convex layers of the set of Theorem~\ref{thm:B}: a triangular bipyramid (blue), an octahedron (green) and a tetrahedron (red), with the labels of Table~\ref{tab:coordsB}. The drawing is schematic: it shows regular solids with the true combinatorics and labels, since in the actual coordinates the inner layers are small and flat.}\label{fig:layers}
+\end{figure}
+
+\begin{proof}[Proof of Theorem~\ref{thm:B}]
+Each row of Tables~\ref{tab:certB} and~\ref{tab:certBb} is a relation of $X_3$, by the same three checks as before. Every one of the $\binom{15}{8}=6435$ eight-point subsets of $X_3$ contains the support of one of these $\relB$ relations; equivalently, every $7$-subset of the indices lies in the complement of a support. This finite statement is verified in the archive \cite{BB26z} by independent programs in four languages and by the Lean~4 kernel; three of the programs also test every $8$-subset directly for convex position in exact integer arithmetic, without using the certificate. Proposition~\ref{prop:cover} then shows that $X_3$ has no $8$ points in convex position. The set $X_3$ is in general position, the smallest absolute value of its $\binom{15}{4}=1365$ determinants being $\mindetB$, and again Proposition~\ref{prop:cover} would supply a perturbation if this check were omitted. So $g^{(3)}(8)\ge16$ and $h^{(3)}(8)\ge16$, and the monotonicity $g^{(3)}(9)\ge g^{(3)}(8)+1$ gives $g^{(3)}(9)\ge17$.
+\end{proof}
+
+The points $p$ of the relations run through all ten points of the two inner layers, and no relation places a vertex of the outer bipyramid inside a simplex. In $\relBinner$ of the $\relB$ relations the point $p$ is a vertex of the inner tetrahedron. The others are needed because an $8$-subset may avoid the inner tetrahedron altogether: it then consists of eight of the eleven points of the two outer layers, and one of its octahedron vertices must lie inside a simplex of the others.
+
+%----------------------------------------------------------------------
+\section{How the sets were found}\label{sec:search}
+
+The sets were found by local search over coordinates. For a candidate set we counted its $k$-subsets in convex position, but a bare count gives the search nothing to follow, since most moves change it by zero. We therefore scored each $k$-subset $Y$ by how far it is from failing: for every point $p$ of $Y$ and every simplex $\sigma$ of other points of $Y$, the least barycentric coordinate of $p$ with respect to $\sigma$ measures how far $p$ is from being inside, and the score of $Y$ is $f$ of the smallest such violation over $p$ and $\sigma$, with $f(t)=t/(1+t)$ for violations and $0$ for subsets that already fail. The total score is zero exactly for sets without $k$-gons. Simulated annealing on this score, with occasional \emph{repair moves} that take a point of a surviving $k$-gon and place it just inside the simplex of the subset nearest to it, found the eleven points in $\R^4$ and the fifteen points in $\R^3$.\footnote{Before these constructions we checked the status of the problem in the literature cited here and with the BLLM engine Anaxia \cite{Ana26}. The engine keeps indexes of DeepMind's formal-conjectures collection and AlphaEvolve problem repository, of the OpenRefute archive and of OpenAI's collection of mathematical manuscripts, and answers a query with the matching entries and their recorded status. For the Erd\H{o}s--Szekeres problem these indexes hold only the planar question (Erd\H{o}s problem~107 in the formal-conjectures collection and problem~58 of the AlphaEvolve repository) and no entry on $g^{(d)}(k)$ for $d\ge3$, which agreed with our reading of \cite{Sch23} and of the papers citing it. The two point sets of this paper were found and verified by the search and certificate programs of the archive \cite{BB26z}, not by the engine. The methods that found them, a graded count of violated subsets, repair moves that push a point just inside its nearest simplex, and the polishing of the least barycentric coordinate described below, were afterwards added to the engine as construction rules.}
+
+The sets so found have real coordinates and some relations with very small barycentric coordinates. We then \emph{polished} each set by hill climbing on the least barycentric coordinate over a fixed certificate, which doubled it for the set in $\R^3$, and rounded to the coarsest integer grid on which a certificate survives; this gave coordinates at most $\maxcoordA$ in $\R^4$ and at most $\maxcoordB$ in $\R^3$. Finally we chose a certificate with few relations and small weights by a randomised greedy covering followed by removal of redundant relations. None of these steps is part of the proof.
+
+%----------------------------------------------------------------------
+\section{What remains open}\label{sec:open}
+
+The value of $g^{(4)}(8)$ is now $12$ or $13$. The same search, run on twelve points in $\R^4$, ended with sets that still contain four $8$-gons, and twelve points in $\R^5$ without a $9$-gon ended at three $9$-gons; for fifteen points in $\R^3$ the search reached zero, while sixteen points ended at four $8$-gons. Scheucher's twelve-element chirotopes without $8$-gons and $9$-gons in rank five and six are not realizable either. A twelve-point set in $\R^4$ without an $8$-gon would prove $g^{(4)}(8)=13$ and confirm both conjectures quoted in the introduction; a proof that every twelve points contain an $8$-gon would refute them.
+
+In three dimensions the gap is wider: $16\le g^{(3)}(8)$, while the conjectured value is $21$. The layered structure of $X_3$ suggests adding a fourth layer inside the tetrahedron or replacing the tetrahedron by a larger polytope. The value of $h^{(3)}(8)$ is not even known to be finite \cite{Sch23}.
+
+Finally, the certificates are longer than the bounds of Remark~\ref{rem:schoenheim}: $\relA$ relations against $18$ in $\R^4$, and $\relB$ against $74$ in $\R^3$. In both sets the points $p$ of the relations are confined to the inner layers, so the supports are not spread evenly over the set, as a covering design meeting Sch\"onheim's bound would require.
+
+%----------------------------------------------------------------------
+\section*{Data and code availability}
+The coordinates, the certificates, the search, polishing and rounding programs, the independent checks in Python, C, C++ and Julia, the Lean~4 file that checks both certificates in the kernel, the figure programs and the \LaTeX{} source are in the repository \codeDOI{} and its Zenodo archive\zenodoDOI{} \cite{BB26z}. The status check of the problem was made with the BLLM engine Anaxia, release v3.0.5 \cite{Ana26}. Deep Bhattacharjee carried out the computations and the Python, C, C++, Julia, Lean and shell verifications with AI assistance (Claude, Anthropic).
+
+\section*{Ethical declarations}
+Funding: none. Competing interests: none.
+
+\section*{Author contributions}
+Deep Bhattacharjee proposed the problem, carried out the searches and computations and wrote the paper. Ushashi Bhattacharya checked the relations of Table~\ref{tab:certA} and the proofs of Appendix~\ref{app:proofs}. Both authors approved the final version.
+
+\appendix
+
+%----------------------------------------------------------------------
+\section{Proofs of the lemmas}\label{app:proofs}
+
+\input{tables/cert_r4}
+\input{tables/cert_r3}
+
+\emph{Barycentric coordinates.} Let $v_0,\dots,v_d\in\R^d$ with $D=\det(v_0,\dots,v_d)\ne0$. For a point $p$ the system $\sum_j\lambda_j=1$, $\sum_j\lambda_jv_j=p$ has the matrix whose columns are $(1,v_j)$, the transpose of the matrix defining $D$, so it has the unique solution
+\begin{equation}\label{eq:cramer}
+\lambda_j=\frac{\det(v_0,\dots,v_{j-1},p,v_{j+1},\dots,v_d)}{D}
+\end{equation}
+by Cramer's rule. The point $p$ lies in the interior of $\conv\{v_0,\dots,v_d\}$ if and only if all $\lambda_j>0$: the simplex is the set where all $\lambda_j\ge0$, and its boundary is where some $\lambda_j=0$. Summing \eqref{eq:cramer} gives $\sum_j\det(v_0,\dots,p,\dots,v_d)=D$, an identity used to check tables: the numerators of a relation are $m_jD/M$ and add up to $D$.
+
+\emph{Proof of the divisibility in Lemma~\ref{lem:interior}.} From $\lambda_j=m_j/M$ and \eqref{eq:cramer}, $m_jD=MN_j$ with $N_j$ the integer numerator. Choose integers $a_j$ with $\sum_ja_jm_j=1$. Then $D=\sum_ja_jm_jD=M\sum_ja_jN_j$.
+
+\emph{An explicit $\varepsilon$ in Lemma~\ref{lem:stable}.} Let all $d+2$ points lie in a ball of radius $R\ge1$ around the origin and let $\delta=\min_j m_j/M$. The determinant $\det(v_0,\dots,v_d)$ is a multilinear function of the rows $(1,v_j)$. Moving each point by at most $\varepsilon\le R$ changes each row by at most $\varepsilon$ and keeps every row of norm at most $\sqrt{1+4R^2}\le3R$. Replacing the rows one at a time and applying Hadamard's inequality to each difference, the determinant changes by at most $(d+1)\,\varepsilon\,(3R)^{d}$, and the same holds for each numerator in \eqref{eq:cramer}. If $\varepsilon\le|D|\,\delta/\bigl(4(d+1)(3R)^d\bigr)$, then the new determinant has the sign of $D$ and modulus at least $\tfrac34|D|$, each new numerator differs from the old one $\lambda_jD$ by at most $\tfrac14\delta|D|$, and so every new barycentric coordinate is at least $\frac34\delta/\frac54=\frac35\delta>0$.
+
+\emph{The general position claim of Proposition~\ref{prop:cover}.} Each $\det(x_{i_0},\dots,x_{i_d})$ is a polynomial in the $d|X|$ coordinates that does not vanish identically, since it is nonzero on any set of $d+1$ affinely independent points. A finite union of zero sets of nonzero polynomials has empty interior, so every neighbourhood of a configuration contains configurations in general position.
+
+\emph{Sch\"onheim's bound.} A family of $s$-subsets of an $n$-set covering every $t$-subset has at least $\lceil\frac{n}{s}\lceil\frac{n-1}{s-1}\cdots\lceil\frac{n-t+1}{s-t+1}\rceil\cdots\rceil\rceil$ members \cite{Sch64}: the members containing a fixed point, with that point removed, cover all $(t-1)$-subsets of the remaining $n-1$ points, and counting incidences gives the recursion. For $(n,s,t)=(11,5,3)$ the bound is $\lceil\frac{11}{5}\lceil\frac{10}{4}\cdot3\rceil\rceil=\lceil\frac{11\cdot8}{5}\rceil=18$; for $(15,10,7)$ the nested values are $3,6,11,19,31,49,74$.
+
+%----------------------------------------------------------------------
+\section{The certificates}\label{app:certA}\label{app:certB}
+
+Table~\ref{tab:certA} lists the $\relA$ relations of $X_4$, and Tables~\ref{tab:certB} and~\ref{tab:certBb} the $\relB$ relations of $X_3$, ordered by $p$ and then by $\sigma$. The weights are the integers $m_j=M\lambda_j$ with $\gcd(m_0,\dots,m_d)=1$; the largest $M$ is $\maxMA$ for $X_4$ and $\maxMB$ for $X_3$. To check a row, multiply each point $x_{s_j}$ by $m_j$, add, and compare with $Mx_p$ coordinate by coordinate; then compute one determinant of size $d+1$, whose absolute value must be $gM$.
+
+%----------------------------------------------------------------------
+\begin{thebibliography}{99}\rightskip=0pt plus 3em
+
+\bibitem{ES35} P.~Erd\H{o}s and G.~Szekeres, A combinatorial problem in geometry, \emph{Compositio Math.} \textbf{2} (1935), 463--470, \url{http://www.numdam.org/item/CM_1935__2__463_0/}.
+
+\bibitem{MS00} W.~Morris and V.~Soltan, The Erd\H{o}s--Szekeres problem on points in convex position---a survey, \emph{Bull. Amer. Math. Soc.} \textbf{37} (2000), 437--458, \href{https://doi.org/10.1090/S0273-0979-00-00877-6}{doi:10.1090/S0273-0979-00-00877-6}.
+
+\bibitem{SP06} G.~Szekeres and L.~Peters, Computer solution to the 17-point Erd\H{o}s--Szekeres problem, \emph{ANZIAM J.} \textbf{48} (2006), 151--164, \href{https://doi.org/10.1017/S144618110000300X}{doi:10.1017/S144618110000300X}.
+
+\bibitem{Mar19} F.~Mari\'c, Fast formal proof of the Erd\H{o}s--Szekeres conjecture for convex polygons with at most 6 points, \emph{J. Automat. Reason.} \textbf{62} (2019), 301--329, \href{https://doi.org/10.1007/s10817-017-9423-7}{doi:10.1007/s10817-017-9423-7}.
+
+\bibitem{Suk17} A.~Suk, On the Erd\H{o}s--Szekeres convex polygon problem, \emph{J. Amer. Math. Soc.} \textbf{30} (2017), 1047--1053, \href{https://doi.org/10.1090/jams/869}{doi:10.1090/jams/869}.
+
+\bibitem{HS24} M.~J.~H.~Heule and M.~Scheucher, Happy ending: an empty hexagon in every set of 30 points, in \emph{Tools and Algorithms for the Construction and Analysis of Systems (TACAS 2024)}, Lecture Notes in Comput. Sci. \textbf{14570}, Springer, 2024, 61--80, \href{https://doi.org/10.1007/978-3-031-57246-3_5}{doi:10.1007/978-3-031-57246-3\_5}.
+
+\bibitem{Sch23} M.~Scheucher, A SAT attack on Erd\H{o}s--Szekeres numbers in $\R^d$ and the empty hexagon theorem, \emph{Comput. Geom. Topol.} \textbf{2}(1) (2023), Article~2, 1--13, \href{https://doi.org/10.57717/cgt.v2i1.12}{doi:10.57717/cgt.v2i1.12}.
+
+\bibitem{Kar01} G.~K\'arolyi, Ramsey-remainder for convex sets and the Erd\H{o}s--Szekeres theorem, \emph{Discrete Appl. Math.} \textbf{109} (2001), 163--175, \href{https://doi.org/10.1016/S0166-218X(00)00234-1}{doi:10.1016/S0166-218X(00)00234-1}.
+
+\bibitem{KV03} G.~K\'arolyi and P.~Valtr, Point configurations in $d$-space without large subsets in convex position, \emph{Discrete Comput. Geom.} \textbf{30} (2003), 277--286, \href{https://doi.org/10.1007/s00454-003-0009-4}{doi:10.1007/s00454-003-0009-4}.
+
+\bibitem{PZ25} C.~Pohoata and D.~Zakharov, Convex polytopes from fewer points, \emph{Duke Math. J.} \textbf{174} (2025), 449--471, \href{https://doi.org/10.1215/00127094-2024-0034}{doi:10.1215/00127094-2024-0034}.
+
+\bibitem{Val92} P.~Valtr, Sets in $\R^d$ with no large empty convex subsets, \emph{Discrete Math.} \textbf{108} (1992), 115--124, \href{https://doi.org/10.1016/0012-365X(92)90665-3}{doi:10.1016/0012-365X(92)90665-3}.
+
+\bibitem{DGK63} L.~Danzer, B.~Gr\"unbaum and V.~Klee, Helly's theorem and its relatives, in \emph{Convexity}, Proc. Sympos. Pure Math. \textbf{7}, Amer. Math. Soc., 1963, 101--180, \href{https://doi.org/10.1090/pspum/007/0157289}{doi:10.1090/pspum/007/0157289}.
+
+\bibitem{BH95} T.~Bisztriczky and H.~Harborth, On empty convex polytopes, \emph{J. Geom.} \textbf{52} (1995), 25--29, \href{https://doi.org/10.1007/BF01406823}{doi:10.1007/BF01406823}.
+
+\bibitem{BS94} T.~Bisztriczky and V.~Soltan, Some Erd\H{o}s--Szekeres type results about points in space, \emph{Monatsh. Math.} \textbf{118} (1994), 33--40, \href{https://doi.org/10.1007/BF01305772}{doi:10.1007/BF01305772}.
+
+\bibitem{Sch64} J.~Sch\"onheim, On coverings, \emph{Pacific J. Math.} \textbf{14} (1964), 1405--1411, \href{https://doi.org/10.2140/pjm.1964.14.1405}{doi:10.2140/pjm.1964.14.1405}.
+
+\bibitem{Zie95} G.~M.~Ziegler, \emph{Lectures on Polytopes}, Grad. Texts in Math. \textbf{152}, Springer, 1995, \href{https://doi.org/10.1007/978-1-4613-8431-1}{doi:10.1007/978-1-4613-8431-1}.
+
+\bibitem{Gru03} B.~Gr\"unbaum, \emph{Convex Polytopes}, 2nd ed., Grad. Texts in Math. \textbf{221}, Springer, 2003, \href{https://doi.org/10.1007/978-1-4613-0019-9}{doi:10.1007/978-1-4613-0019-9}.
+
+\bibitem{BBB26a} D.~Bhattacharjee, U.~Bhattacharya and S.~Bhattacharya, The sphere packing problem in dimension 4, \emph{Preprints} (2026), \href{https://doi.org/10.20944/preprints202606.0856.v11}{doi:10.20944/preprints202606.0856.v11}.
+
+\bibitem{BBB26b} D.~Bhattacharjee, U.~Bhattacharya and S.~Bhattacharya, The sphere packing problem in dimension 7, \emph{Preprints} (2026), \href{https://doi.org/10.20944/preprints202606.1534.v9}{doi:10.20944/preprints202606.1534.v9}.
+
+\bibitem{Bha26} D.~Bhattacharjee, Seed universality for reflexive polytopes in dimension four: generation of the Kreuzer--Skarke Calabi--Yau landscape via toric seed orbits, \emph{Preprints} (2026), \href{https://doi.org/10.20944/preprints202603.1056.v1}{doi:10.20944/preprints202603.1056.v1}.
+
+\bibitem{Ana26} D.~Bhattacharjee and U.~Bhattacharya, Anaxia, the BLLM engine: verifier-gated conjecture closure, release v3.0.5 (2026), \href{https://doi.org/10.5281/zenodo.23469389}{doi:10.5281/zenodo.23469389} (all versions \href{https://doi.org/10.5281/zenodo.23286641}{doi:10.5281/zenodo.23286641}), with the paper \emph{BLLM: Beyond the LLM with Deep Human-Mind-AI}, \url{https://github.com/creelie/eBLLM}.
+
+\bibitem{BB26z} D.~Bhattacharjee and U.~Bhattacharya, New lower bounds for Erd\H{o}s--Szekeres numbers in three and four dimensions: coordinates, certificates and checks, repository \url{https://github.com/creelie/Erdos-s1}, release v1.0.0 (2026)\zenodoDOI.
+
+\end{thebibliography}
+
+\end{document}

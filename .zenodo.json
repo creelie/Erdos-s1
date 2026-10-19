@@ -1,0 +1,49 @@
+{
+  "title": "New lower bounds for Erdős–Szekeres numbers in three and four dimensions: coordinates, certificates and checks",
+  "description": "<p>We construct eleven integer points in general position in four-dimensional space with no eight of them in convex position, and fifteen integer points in general position in three-dimensional space with no eight of them in convex position. Hence g<sup>(4)</sup>(8) &ge; 12, so that by Scheucher's upper bound g<sup>(4)</sup>(8) is 12 or 13, and g<sup>(3)</sup>(8) &ge; 16 (previously 11 and 14). Each proof is a certificate: 28 and 161 integer identities that each place one point strictly inside a simplex spanned by others, such that every eight points contain the support of one of them.</p><p><code>preprintErdosSzekeresHighDim/</code> holds the paper as a PDF; <code>paper/</code> holds the LaTeX source (REVTeX 4.2) with four 3D figures; <code>dist/</code> holds the PDF, the LaTeX source zip and the arXiv tarball; <code>MasterErdosSzekeresHighDim_masterzipfinal2.zip</code> holds every file of the repository. <code>highdim/</code> holds the point sets, the certificates and the search, polishing, rounding and certificate programs. <code>checks/</code> holds independent exact checks in Python, C, C++ and Julia, and a Lean 4 file in which the kernel proves general position, the relations and the covering condition. <code>scripts/run_all.sh</code> runs every check.</p>",
+  "upload_type": "software",
+  "license": "mit",
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Bhattacharjee, Deep",
+      "orcid": "0000-0003-0466-750X",
+      "affiliation": "Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India; Formerly, University of Calcutta, Senate House, 87/1 College Street, Kolkata 700073, West Bengal, India"
+    },
+    {
+      "name": "Bhattacharya, Ushashi",
+      "orcid": "0009-0002-2254-3914",
+      "affiliation": "Formerly, National Taiwan University, Taipei 106319, Taiwan"
+    }
+  ],
+  "keywords": [
+    "Erdős–Szekeres problem",
+    "convex position",
+    "points in higher dimensions",
+    "interior-point certificates",
+    "Lean 4",
+    "52C10",
+    "52A37",
+    "05D10"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.57717/cgt.v2i1.12",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.1090/S0273-0979-00-00877-6",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.23469389",
+      "relation": "references",
+      "scheme": "doi"
+    }
+  ],
+  "language": "eng",
+  "version": "1.0.0",
+  "notes": "Corresponding author: Deep Bhattacharjee, itsdeep@live.com (primary), d.bhattacharjee@erl-forschung.de. Ushashi Bhattacharya: rai.bhattacharya.in@gmail.com."
+}

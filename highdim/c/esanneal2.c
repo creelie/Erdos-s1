@@ -1,0 +1,151 @@
+/* Simulated annealing for point sets in R^d (general position) with no k
+   points in convex position, with a graded score.
+   Score = (number of convex k-subsets) + w * sum over those subsets S of
+   f(min over p in S and (d+1)-subsets s of S-p of the barycentric
+   violation of p with respect to s), f(x) = x/(1+x).  The violation is
+   -min_j lambda_j, where lambda are the barycentric coordinates of p in the
+   simplex s; it is 0 exactly when p lies in s.  So the graded part measures
+   how far each bad subset is from losing convex position.
+   Usage: esanneal2 n d k seed seconds [init.txt]  (writes best2_<n>_<d>_<k>_<seed>.txt) */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <time.h>
+#include <stdint.h>
+
+#define MAXN 24
+#define MAXD 7
+typedef uint64_t u64;
+static int n, d, k;
+static double P[MAXN][MAXD];
+static u64 *W[MAXN]; static int Wn[MAXN], Wcap[MAXN];
+static float *NM[MAXN];          /* NM[p][rank(simplex)] = barycentric violation */
+static long Cb[MAXN+1][MAXN+1];
+static long nsimp;
+static double wgt = 0.5;
+static u64 rs = 88172645463325252ULL;
+static u64 rnd(void){ rs ^= rs << 13; rs ^= rs >> 7; rs ^= rs << 17; return rs; }
+static double unif(void){ return (rnd() >> 11) * (1.0/9007199254740992.0); }
+static double gauss(void){ double u=unif()+1e-300, v=unif(); return sqrt(-2*log(u))*cos(2*M_PI*v); }
+
+static double det(double A[MAXD+1][MAXD+1], int m){
+  double M[MAXD+1][MAXD+1]; memcpy(M, A, sizeof(M)); double r = 1;
+  for (int i=0;i<m;i++){
+    int piv=i; for(int j=i+1;j<m;j++) if (fabs(M[j][i])>fabs(M[piv][i])) piv=j;
+    if (M[piv][i]==0) return 0;
+    if (piv!=i){ for(int c=0;c<m;c++){double t=M[i][c];M[i][c]=M[piv][c];M[piv][c]=t;} r=-r; }
+    r *= M[i][i];
+    for (int j=i+1;j<m;j++){ double f=M[j][i]/M[i][i]; for(int c=i;c<m;c++) M[j][c]-=f*M[i][c]; }
+  }
+  return r;
+}
+static double orient(const int *idx){
+  double A[MAXD+1][MAXD+1];
+  for (int c=0;c<=d;c++){ A[0][c]=1; for(int r=0;r<d;r++) A[r+1][c]=P[idx[c]][r]; }
+  return det(A, d+1);
+}
+static long rank(u64 m){ long r=0; int i=0; for (u64 s=m; s; s&=s-1){ int p=__builtin_ctzll(s); r+=Cb[p][i+1]; i++; } return r; }
+static void addW(int p, u64 m){
+  if (Wn[p]==Wcap[p]){ Wcap[p]=Wcap[p]?2*Wcap[p]:256; W[p]=realloc(W[p], Wcap[p]*sizeof(u64)); }
+  W[p][Wn[p]++]=m;
+}
+static double minabs;
+static void build(void){
+  for (int p=0;p<n;p++) Wn[p]=0;
+  minabs = 1e300;
+  int idx[MAXD+1]; for (int i=0;i<=d;i++) idx[i]=i;
+  while (1){
+    double o = orient(idx); if (fabs(o)<minabs) minabs=fabs(o);
+    u64 m=0; for(int i=0;i<=d;i++) m|=1ULL<<idx[i];
+    long r = rank(m);
+    for (int p=0;p<n;p++){
+      if (m>>p&1) continue;
+      int t[MAXD+1]; double lmin=1e300;
+      for (int j=0;j<=d;j++){ memcpy(t,idx,sizeof(int)*(d+1)); t[j]=p; double l=orient(t)/o; if (l<lmin) lmin=l; }
+      if (lmin>=0){ addW(p, m); NM[p][r]=0; } else NM[p][r]=(float)(-lmin);
+    }
+    int i=d; while (i>=0 && idx[i]==n-d-1+i) i--; if (i<0) break;
+    idx[i]++; for (int j=i+1;j<=d;j++) idx[j]=idx[j-1]+1;
+  }
+}
+static long cnt; static double grad;
+static int convex_with(u64 T, int q){
+  u64 U = T | (1ULL<<q);
+  for (int i=0;i<Wn[q];i++) if ((W[q][i] & T)==W[q][i]) return 0;
+  for (u64 s=T; s; s&=s-1){ int p=__builtin_ctzll(s);
+    for (int i=0;i<Wn[p];i++){ u64 m=W[p][i]; if ((m>>q&1) && (m & U)==m) return 0; } }
+  return 1;
+}
+static double closeness(u64 S){   /* min violation over p in S, simplex in S-p */
+  double best=1e300; int b[MAXN];
+  for (u64 s=S; s; s&=s-1){ int p=__builtin_ctzll(s);
+    int r=0; for (u64 t=S&~(1ULL<<p); t; t&=t-1) b[r++]=__builtin_ctzll(t);
+    int c[MAXD+1]; for (int i=0;i<=d;i++) c[i]=i;
+    while (1){
+      u64 m=0; for (int i=0;i<=d;i++) m|=1ULL<<b[c[i]];
+      double v=NM[p][rank(m)]; if (v<best) best=v;
+      int i=d; while (i>=0 && c[i]==r-d-1+i) i--; if (i<0) break;
+      c[i]++; for (int j=i+1;j<=d;j++) c[j]=c[j-1]+1;
+    }
+  }
+  return best;
+}
+static int hole = 0;          /* ES_HOLE=1: count only empty convex k-sets (k-holes) */
+static void dfs(u64 T, int size, int start){
+  if (size==k){
+    double x=closeness(T);
+    if (hole){
+      for (int q=0;q<n;q++){ if (T>>q&1) continue;
+        for (int i=0;i<Wn[q];i++) if ((W[q][i] & T)==W[q][i]) return;   /* q inside conv(T): not a hole */
+        int b[MAXN], r=0; for (u64 t=T; t; t&=t-1) b[r++]=__builtin_ctzll(t);
+        int c[MAXD+1]; for (int i=0;i<=d;i++) c[i]=i;
+        while (1){ u64 m=0; for (int i=0;i<=d;i++) m|=1ULL<<b[c[i]];
+          double v=NM[q][rank(m)]; if (v<x) x=v;
+          int i=d; while (i>=0 && c[i]==r-d-1+i) i--; if (i<0) break;
+          c[i]++; for (int j=i+1;j<=d;j++) c[j]=c[j-1]+1; }
+      }
+    }
+    cnt++; grad += x/(1+x); return; }
+  for (int q=start;q<n;q++) if (n-q >= k-size && convex_with(T,q)) dfs(T|(1ULL<<q), size+1, q+1);
+}
+static double cost(void){ build(); cnt=0; grad=0; dfs(0,0,0); return cnt + wgt*grad; }
+static void save(const char *fn){ FILE *f=fopen(fn,"w"); for(int i=0;i<n;i++){ for(int j=0;j<d;j++) fprintf(f,"%.17g ",P[i][j]); fprintf(f,"\n"); } fclose(f); }
+
+int main(int argc, char **argv){
+  if (argc<6){ fprintf(stderr,"usage: esanneal2 n d k seed seconds [init.txt]\n"); return 2; }
+  n=atoi(argv[1]); d=atoi(argv[2]); k=atoi(argv[3]); int seed=atoi(argv[4]); double secs=atof(argv[5]);
+  if (getenv("ES_W")) wgt=atof(getenv("ES_W"));
+  if (getenv("ES_HOLE")) hole=atoi(getenv("ES_HOLE"));
+  for (int i=0;i<=MAXN;i++){ Cb[i][0]=1; for (int j=1;j<=MAXN;j++) Cb[i][j]= i? Cb[i-1][j-1]+Cb[i-1][j] : 0; }
+  nsimp=Cb[n][d+1]; for (int p=0;p<n;p++) NM[p]=calloc(nsimp,sizeof(float));
+  rs ^= (u64)seed*0x9E3779B97F4A7C15ULL; for(int i=0;i<10;i++) rnd();
+  int m0=0;
+  if (argc>6){ FILE *f=fopen(argv[6],"r"); if (!f){ perror(argv[6]); return 2; }
+    while (m0<n && fscanf(f,"%lf",&P[m0][0])==1){ for(int j=1;j<d;j++) if (fscanf(f,"%lf",&P[m0][j])!=1) break; m0++; } fclose(f); }
+  for (int i=m0;i<n;i++) for(int j=0;j<d;j++) P[i][j] = m0? P[rnd()%m0][j]+0.05*gauss() : gauss();
+  char fn[128]; sprintf(fn,hole?"bestH_%d_%d_%d_%d.txt":"best2_%d_%d_%d_%d.txt",n,d,k,seed);
+  double c=cost(), best=c; long bestcnt=cnt; double Best[MAXN][MAXD], BestC[MAXN][MAXD]; memcpy(Best,P,sizeof(P)); memcpy(BestC,P,sizeof(P));
+  double T=1.0; long it=0, lastimp=0; time_t t0=time(NULL);
+  printf("start cost %.4f (count %ld)\n", c, cnt); fflush(stdout);
+  static const double sc[5]={0.003,0.01,0.03,0.1,0.3};
+  while (bestcnt>0 && difftime(time(NULL),t0)<secs){
+    it++;
+    double old[MAXD]; int i=rnd()%n; memcpy(old,P[i],sizeof(old));
+    double r=unif();
+    if (r<0.85){ double s=sc[rnd()%5]; for(int j=0;j<d;j++) P[i][j]+=s*gauss(); }
+    else if (r<0.97){ int o=rnd()%n; for(int j=0;j<d;j++) P[i][j]=P[o][j]+0.2*gauss(); }
+    else { double s=(double[]){0.5,1,3}[rnd()%3]; for(int j=0;j<d;j++) P[i][j]=s*gauss(); }
+    double c2=cost();
+    if (minabs<1e-9){ memcpy(P[i],old,sizeof(old)); continue; }
+    if (c2<=c || unif()<exp((c-c2)/T)) c=c2; else memcpy(P[i],old,sizeof(old));
+    if (c==c2 && cnt<bestcnt){ bestcnt=cnt; memcpy(BestC,P,sizeof(P)); { double Q[MAXN][MAXD]; memcpy(Q,P,sizeof(P)); save(fn); memcpy(P,Q,sizeof(P)); }
+      printf("%.0fs it %ld count %ld score %.4f\n", difftime(time(NULL),t0), it, cnt, c); fflush(stdout); }
+    if (c<best-1e-12){ best=c; memcpy(Best,P,sizeof(P)); lastimp=it; }
+    T = T*0.9995; if (T<0.02) T=0.02;
+    if (it-lastimp>6000){ memcpy(P,Best,sizeof(P)); c=best; T=0.5; lastimp=it; }
+  }
+  memcpy(P,BestC,sizeof(P)); save(fn);
+  printf(bestcnt==0? "FOUND\n" : "# end best count %ld score %.4f\n", bestcnt, best); printf("# it %ld\n", it);
+  return 0;
+}
