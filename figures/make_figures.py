@@ -37,7 +37,7 @@ def facets(P, H, d):
 
 def save(fig, name):
     path = os.path.join(OUT, name)
-    fig.savefig(path, dpi=200, facecolor="white", bbox_inches="tight", pad_inches=0.05)
+    fig.savefig(path, dpi=290, facecolor="white", bbox_inches="tight", pad_inches=0.05)
     plt.close(fig)
     if shutil.which("convert"):
         subprocess.run(["convert", path, "-background", "white", "-alpha", "remove", "-alpha", "off",
