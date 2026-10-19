@@ -1,3 +1,7 @@
 __pycache__/
 *.cnf
 *.npy
+highdim/c/esanneal
+highdim/c/esanneal2
+highdim/c/best*.txt
+highdim/c/init_*.txt
