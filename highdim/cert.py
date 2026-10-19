@@ -10,7 +10,9 @@ after any small enough perturbation of the points.  The script picks, greedily,
 a short list of relations such that every k-subset contains one of them (for
 --hole: every k-subset T either contains a relation, or contains the v_i of a
 relation whose p is outside T).  It prints the list and re-checks it.
-Usage: cert.py points.json d k [--hole] [--tex out.tex]"""
+With --minmax it uses only relations whose total weight is at most the least
+threshold that still allows a cover.
+Usage: cert.py points.json d k [--hole] [--minmax] [--tex out.tex]"""
 import sys, json, itertools
 from fractions import Fraction
 from math import gcd
@@ -40,7 +42,7 @@ def check(P, d, p, S, m):
     return all(sum(m[j] * P[S[j]][c] for j in range(d + 1)) == M * P[p][c] for c in range(d)) and \
         all(x > 0 for x in m) and orient(P, S) != 0
 
-def cover(P, d, k, hole=False):
+def cover(P, d, k, hole=False, minmax=False):
     n = len(P); rel = relations(P, d)
     subsets = list(itertools.combinations(range(n), k))
     index = {T: i for i, T in enumerate(subsets)}
@@ -54,10 +56,29 @@ def cover(P, d, k, hole=False):
             T = tuple(sorted(base | set(E)))
             if hole or p in T: b |= 1 << index[T]
         return b
-    masks = [mask(r) for r in rel]
-    left = (1 << len(subsets)) - 1; chosen = []
+    full = (1 << len(subsets)) - 1
+    if minmax:
+        # keep only the relations of total weight at most T, for the least T that still covers
+        tot = sorted(set(sum(r[2]) for r in rel))
+        lo, hi = 0, len(tot) - 1
+        allm = [mask(r) for r in rel]
+        def covers(T):
+            u = 0
+            for r, b in zip(rel, allm):
+                if sum(r[2]) <= T: u |= b
+            return u == full
+        if not covers(tot[hi]): lo = hi
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if covers(tot[mid]): hi = mid
+            else: lo = mid + 1
+        keep = [i for i, r in enumerate(rel) if sum(r[2]) <= tot[lo]]
+        rel = [rel[i] for i in keep]; masks = [allm[i] for i in keep]
+    else:
+        masks = [mask(r) for r in rel]
+    left = full; chosen = []
     while left:
-        j = max(range(len(rel)), key=lambda i: (masks[i] & left).bit_count())
+        j = max(range(len(rel)), key=lambda i: ((masks[i] & left).bit_count(), -sum(rel[i][2])))
         if masks[j] & left == 0:
             return None, [subsets[i] for i in range(len(subsets)) if left >> i & 1]
         chosen.append(rel[j]); left &= ~masks[j]
@@ -66,7 +87,7 @@ def cover(P, d, k, hole=False):
 if __name__ == "__main__":
     a = sys.argv
     P = json.load(open(a[1])); d, k = int(a[2]), int(a[3]); hole = "--hole" in a
-    chosen, left = cover(P, d, k, hole)
+    chosen, left = cover(P, d, k, hole, "--minmax" in a)
     if chosen is None:
         print(f"no certificate: {len(left)} {k}-subsets are not covered, e.g. {left[0]}"); sys.exit(1)
     n = len(P)
