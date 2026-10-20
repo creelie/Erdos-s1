@@ -19,3 +19,5 @@ highdim/c/*_pol*.txt
 highdim/c/w3.txt
 highdim/c/w4.txt
 journal/build/
+highdim/c/init*.txt
+highdim/c/*.log
